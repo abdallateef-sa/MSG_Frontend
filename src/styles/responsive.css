@@ -1,0 +1,68 @@
+/* Mobile adjustments. Loaded last so it overrides the base layout rules. */
+
+@media (max-width: 650px) {
+  .auth-card {
+    padding: 30px 20px;
+  }
+
+  .onboarding-top {
+    height: 62px;
+    padding: 0 14px;
+  }
+
+  .onboarding-top > span {
+    font-size: 11px;
+  }
+
+  .onboarding-main {
+    padding: 25px 12px;
+  }
+
+  .progress-steps {
+    margin-bottom: 23px;
+  }
+
+  .progress-step small {
+    font-size: 8px;
+  }
+
+  .courier-intro {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .courier-card {
+    padding: 18px 14px;
+  }
+
+  .form-grid,
+  .upload-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .action-group {
+    flex: 1;
+  }
+
+  .action-group button {
+    flex: 1;
+  }
+
+  .form-actions .secondary-button {
+    padding-inline: 11px;
+  }
+
+  .application-number {
+    flex-wrap: wrap;
+  }
+
+  .contract-preview {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contract-preview .secondary-button {
+    width: 100%;
+  }
+}

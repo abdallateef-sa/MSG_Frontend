@@ -1,0 +1,122 @@
+/* Global tokens, resets, and shared primitives (brand, typography, buttons). */
+
+:root {
+  font-family: 'Somar Sans', Cairo, sans-serif;
+  color: #1f2937;
+  background: #f3f4f6;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Brand logo */
+.brand-logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 0.8;
+  color: #139a43;
+  letter-spacing: -1px;
+  font-family: Inter, sans-serif;
+}
+
+.brand-logo strong {
+  font-size: 31px;
+  font-weight: 900;
+}
+
+.brand-logo small {
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.brand-logo.compact strong {
+  font-size: 22px;
+}
+
+.brand-logo.compact small {
+  font-size: 7px;
+  margin-top: 3px;
+}
+
+/* Typography helpers */
+.eyebrow {
+  color: #139a43;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.muted {
+  color: #7b8880;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* Buttons */
+.link-button {
+  border: 0;
+  background: none;
+  color: #139a43;
+  font-size: 12px;
+}
+
+.primary-button,
+.secondary-button {
+  border-radius: 9px;
+  padding: 11px 18px;
+  border: 1px solid #dce8e1;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.primary-button {
+  background: #139a43;
+  color: #fff;
+  border-color: #139a43;
+  box-shadow: 0 4px 10px #139a4320;
+}
+
+.primary-button:hover {
+  background: #0f7f36;
+}
+
+.secondary-button {
+  background: #fff;
+  color: #139a43;
+}
+
+/* Language toggle */
+.language-button {
+  border: 1px solid #d9e5dc;
+  border-radius: 7px;
+  background: #fff;
+  color: #1f2937;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}

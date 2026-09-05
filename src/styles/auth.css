@@ -1,0 +1,144 @@
+/* Login / authentication screen. Also hosts the shared .form-stack field styles
+   that are reused by the onboarding step forms. */
+
+.auth-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: #f3f4f6;
+}
+
+.auth-card {
+  width: min(100%, 430px);
+  padding: 38px 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 15px 35px #1e4b3512;
+  text-align: center;
+}
+
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #1f2937;
+  font: 700 17px Inter;
+}
+
+.auth-logo .brand-symbol {
+  width: 48px;
+  height: 48px;
+}
+
+.auth-card h1 {
+  margin: 12px 0 0;
+  color: #1f2937;
+  font-size: 28px;
+}
+
+/* Shared form fields (auth + onboarding forms) */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 25px;
+}
+
+.form-stack label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #4c5c53;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.form-stack input,
+.form-stack select {
+  width: 100%;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  outline: 0;
+  padding: 12px;
+  background: #fbfdfc;
+  color: #25382e;
+  font-size: 12px;
+}
+
+.form-stack input:focus,
+.form-stack select:focus {
+  border-color: #00a878;
+  box-shadow: 0 0 0 3px #00a87816;
+}
+
+.auth-card .form-stack {
+  text-align: right;
+}
+
+.auth-card .primary-button,
+.auth-card .secondary-button {
+  width: 100%;
+}
+
+.auth-card .primary-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.check {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 5px !important;
+}
+
+.check input {
+  width: auto;
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 23px 0 8px;
+  color: #a0aaa4;
+  font-size: 11px;
+}
+
+.or:before,
+.or:after {
+  content: '';
+  height: 1px;
+  background: #ebf0ed;
+  flex: 1;
+}
+
+.auth-footer {
+  align-self: end;
+  color: #8a968f;
+  font-size: 10px;
+}
+
+.auth-card > .language-button {
+  display: block;
+  margin: 0 0 -8px auto;
+}
+
+/* LTR overrides for the auth screen */
+.auth-page[dir='ltr'] .auth-card .form-stack {
+  text-align: left;
+}
+
+.auth-page[dir='ltr'] .form-row {
+  direction: ltr;
+}

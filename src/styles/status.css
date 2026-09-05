@@ -1,0 +1,164 @@
+/* Application status screen: application card, vertical stepper, notice, contract. */
+
+.courier-status {
+  max-width: 620px;
+}
+
+.courier-status h1 {
+  margin: 5px 0 3px;
+  color: #1f2937;
+  font-size: 27px;
+}
+
+.status-card,
+.notice-card,
+.contract-preview {
+  margin-top: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.status-card {
+  padding: 20px;
+}
+
+.application-number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.application-number span:first-child {
+  color: #8a968f;
+  font-size: 10px;
+}
+
+.application-number b {
+  font: 600 13px Inter;
+  color: #294237;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.status.info {
+  background: #eaf1ff;
+  color: #356ac5;
+}
+
+/* Vertical stepper */
+.vertical-stepper {
+  padding-top: 18px;
+}
+
+.vertical-step {
+  position: relative;
+  display: flex;
+  gap: 13px;
+  padding-bottom: 23px;
+}
+
+.vertical-step:not(:last-child):after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 14px;
+  top: 30px;
+  bottom: 0;
+  width: 2px;
+  background: #e1eae4;
+}
+
+.step-dot {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 50%;
+  background: #e6ece8;
+  color: #89968e;
+  font: 600 11px Inter;
+}
+
+.vertical-step.active .step-dot {
+  border-color: #139a43;
+  background: #139a43;
+  color: #fff;
+}
+
+.vertical-step b,
+.vertical-step small {
+  display: block;
+}
+
+.vertical-step b {
+  padding-top: 5px;
+  color: #334b3f;
+  font-size: 12px;
+}
+
+.vertical-step small {
+  margin-top: 3px;
+  color: #87948c;
+  font-size: 10px;
+}
+
+.vertical-step.active small {
+  color: #008f68;
+}
+
+/* Notice banner */
+.notice-card {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  background: #fffaf0;
+}
+
+.notice-card > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f5c86a;
+  color: #795313;
+  font-weight: 700;
+}
+
+.notice-card b {
+  font-size: 11px;
+}
+
+.notice-card p {
+  margin: 3px 0 0;
+  color: #876f43;
+  font-size: 10px;
+}
+
+/* Contract preview */
+.contract-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+}
+
+.contract-preview h2 {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #294237;
+}
+
+.contract-preview .secondary-button {
+  white-space: nowrap;
+}
