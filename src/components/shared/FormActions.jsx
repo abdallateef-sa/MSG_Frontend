@@ -1,7 +1,6 @@
 import { useLanguage } from '@/i18n/LanguageContext';
 import { getArrow } from '@/utils/rtl';
 
-
 export default function FormActions({ saved, onSave, onBack }) {
   const { t, lang } = useLanguage();
   return (

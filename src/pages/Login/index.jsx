@@ -9,12 +9,35 @@ import LanguageButton from '@/components/ui/LanguageButton';
 export default function Login() {
   const { t, lang, dir } = useLanguage();
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('courier');
   const [loading, setLoading] = useState(false);
+
+  const handleUsernameChange = (e) => {
+    const val = e.target.value;
+    setUsername(val);
+    const lower = val.toLowerCase();
+    if (lower.includes('supervisor') || val.includes('مشرف')) {
+      setRole('supervisor');
+    } else if (lower.includes('hr') || val.includes('موارد')) {
+      setRole('hr');
+    }
+  };
 
   const submit = (event) => {
     event.preventDefault();
     setLoading(true);
-    window.setTimeout(() => navigate(ROUTES.REGISTER_PERSONAL), 350);
+
+    window.setTimeout(() => {
+      if (role === 'supervisor') {
+        navigate(ROUTES.SUPERVISOR_REQUESTS);
+      } else if (role === 'hr') {
+        navigate(ROUTES.HR_REQUESTS);
+      } else {
+        navigate(ROUTES.STATUS);
+      }
+    }, 350);
   };
 
   return (
@@ -30,12 +53,34 @@ export default function Login() {
         <form onSubmit={submit} className="form-stack">
           <label>
             {t.user}
-            <input required placeholder={t.userPh} />
+            <input
+              required
+              placeholder={t.userPh}
+              value={username}
+              onChange={handleUsernameChange}
+            />
           </label>
+
           <label>
             {t.password}
-            <input required type="password" placeholder={t.passPh} />
+            <input
+              required
+              type="password"
+              placeholder={t.passPh}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </label>
+
+          <label>
+            {t.accountRole}
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="courier">{t.roleCourier}</option>
+              <option value="supervisor">{t.roleSupervisor}</option>
+              <option value="hr">{t.roleHr}</option>
+            </select>
+          </label>
+
           <div className="form-row">
             <label className="check">
               <input type="checkbox" /> {t.remember}
@@ -44,7 +89,8 @@ export default function Login() {
               {t.forgot}
             </button>
           </div>
-          <button className="primary-button" type="submit">
+
+          <button className="primary-button" type="submit" disabled={loading}>
             {loading ? t.loading : t.login} <span>{getArrow(lang)}</span>
           </button>
         </form>

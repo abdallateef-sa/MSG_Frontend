@@ -16,4 +16,8 @@ export const ROUTES = {
   REGISTER_VEHICLE_BANK: '/register/vehicle-bank',
   REGISTER_DOCUMENTS: '/register/documents',
   STATUS: '/status',
+  SUPERVISOR_REQUESTS: '/supervisor/requests',
+  SUPERVISOR_REQUEST_DETAIL: '/supervisor/requests/:id',
+  HR_REQUESTS: '/hr/requests',
+  HR_REQUEST_DETAIL: '/hr/requests/:id',
 };

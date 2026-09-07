@@ -1,67 +1,134 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import FormActions from '@/components/shared/FormActions';
 
-
 export default function PersonalInfo() {
   const { t, lang } = useLanguage();
+  const { personal, updatePersonal, hasVehicle, setHasVehicle } = useOnboarding();
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
 
+  const [formData, setFormData] = useState({
+    fullName: personal.fullName || '',
+    idNumber: personal.idNumber || '',
+    dob: personal.dob || '',
+    nationality: personal.nationality || '',
+    phone: personal.phone || '',
+    city: personal.city || '',
+  });
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = () => {
+    updatePersonal(formData);
+    setSaved(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updatePersonal(formData);
+    navigate(ROUTES.REGISTER_VEHICLE_BANK);
+  };
+
   return (
-    <form
-      className="courier-card form-stack"
-      onSubmit={(e) => {
-        e.preventDefault();
-        navigate(ROUTES.REGISTER_VEHICLE_BANK);
-      }}
-    >
+    <form className="courier-card form-stack" onSubmit={handleSubmit}>
       <h2>{t.personal}</h2>
       <div className="form-grid">
         <label>
           {t.fullName}
-          <input required placeholder={t.fullNamePh} />
+          <input
+            required
+            placeholder={t.fullNamePh}
+            value={formData.fullName}
+            onChange={(e) => handleChange('fullName', e.target.value)}
+          />
         </label>
         <label>
           {t.id}
-          <input required inputMode="numeric" placeholder={t.idPh} />
+          <input
+            required
+            inputMode="numeric"
+            placeholder={t.idPh}
+            value={formData.idNumber}
+            onChange={(e) => handleChange('idNumber', e.target.value)}
+          />
         </label>
         <label>
           {t.dob}
-          <input required type="date" />
+          <input
+            required
+            type="date"
+            value={formData.dob}
+            onChange={(e) => handleChange('dob', e.target.value)}
+          />
         </label>
         <label>
           {t.nationality}
-          <select required defaultValue="">
+          <select
+            required
+            value={formData.nationality}
+            onChange={(e) => handleChange('nationality', e.target.value)}
+          >
             <option value="" disabled>
               {t.chooseNationality}
             </option>
-            <option>{lang === 'ar' ? 'سعودي' : 'Saudi'}</option>
-            <option>{lang === 'ar' ? 'مصري' : 'Egyptian'}</option>
+            <option value={lang === 'ar' ? 'سعودي' : 'Saudi'}>
+              {lang === 'ar' ? 'سعودي' : 'Saudi'}
+            </option>
+            <option value={lang === 'ar' ? 'مصري' : 'Egyptian'}>
+              {lang === 'ar' ? 'مصري' : 'Egyptian'}
+            </option>
           </select>
         </label>
         <label>
           {t.phone}
           <div className="phone-input" dir="ltr">
             <span>+966</span>
-            <input required inputMode="tel" placeholder="5xxxxxxxx" />
+            <input
+              required
+              inputMode="tel"
+              placeholder="5xxxxxxxx"
+              value={formData.phone}
+              onChange={(e) => handleChange('phone', e.target.value)}
+            />
           </div>
         </label>
         <label>
           {t.city}
-          <select required defaultValue="">
+          <select
+            required
+            value={formData.city}
+            onChange={(e) => handleChange('city', e.target.value)}
+          >
             <option value="" disabled>
               {t.chooseCity}
             </option>
-            <option>Riyadh</option>
-            <option>Jeddah</option>
-            <option>Dammam</option>
+            <option value="Riyadh">Riyadh</option>
+            <option value="Jeddah">Jeddah</option>
+            <option value="Dammam">Dammam</option>
+          </select>
+        </label>
+        <label style={{ gridColumn: '1 / -1' }}>
+          {t.hasVehicle}
+          <select
+            required
+            value={hasVehicle === null ? '' : hasVehicle ? 'yes' : 'no'}
+            onChange={(e) => setHasVehicle(e.target.value === 'yes')}
+          >
+            <option value="" disabled>
+              {t.chooseVehicleOwnership}
+            </option>
+            <option value="yes">{t.yesVehicle}</option>
+            <option value="no">{t.noVehicle}</option>
           </select>
         </label>
       </div>
-      <FormActions saved={saved} onSave={() => setSaved(true)} onBack={() => navigate(ROUTES.LOGIN)} />
+      <FormActions saved={saved} onSave={handleSave} onBack={() => navigate(ROUTES.LOGIN)} />
     </form>
   );
 }
