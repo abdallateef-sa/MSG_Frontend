@@ -10,6 +10,7 @@ export default function PersonalInfo() {
   const { personal, updatePersonal, hasVehicle, setHasVehicle } = useOnboarding();
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     fullName: personal.fullName || '',
@@ -18,21 +19,42 @@ export default function PersonalInfo() {
     nationality: personal.nationality || '',
     phone: personal.phone || '',
     city: personal.city || '',
+    password: personal.password || '',
+    confirmPassword: '',
   });
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: null }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.password) {
+      newErrors.password = t.passwordRequired;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = t.passwordMismatch;
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = () => {
-    updatePersonal(formData);
-    setSaved(true);
+    if (validateForm()) {
+      updatePersonal(formData);
+      setSaved(true);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updatePersonal(formData);
-    navigate(ROUTES.REGISTER_VEHICLE_BANK);
+    if (validateForm()) {
+      updatePersonal(formData);
+      navigate(ROUTES.REGISTER_VEHICLE_BANK);
+    }
   };
 
   return (
@@ -126,6 +148,40 @@ export default function PersonalInfo() {
             <option value="yes">{t.yesVehicle}</option>
             <option value="no">{t.noVehicle}</option>
           </select>
+        </label>
+        <label style={{ gridColumn: '1 / -1' }}>
+          {t.password}
+          <input
+            type="password"
+            required
+            placeholder={t.passwordPh}
+            value={formData.password}
+            onChange={(e) => handleChange('password', e.target.value)}
+          />
+          {errors.password && (
+            <small
+              style={{ color: '#dc2626', fontSize: '11px', marginTop: '4px', display: 'block' }}
+            >
+              {errors.password}
+            </small>
+          )}
+        </label>
+        <label style={{ gridColumn: '1 / -1' }}>
+          {t.confirmPassword}
+          <input
+            type="password"
+            required
+            placeholder={t.confirmPasswordPh}
+            value={formData.confirmPassword}
+            onChange={(e) => handleChange('confirmPassword', e.target.value)}
+          />
+          {errors.confirmPassword && (
+            <small
+              style={{ color: '#dc2626', fontSize: '11px', marginTop: '4px', display: 'block' }}
+            >
+              {errors.confirmPassword}
+            </small>
+          )}
         </label>
       </div>
       <FormActions saved={saved} onSave={handleSave} onBack={() => navigate(ROUTES.LOGIN)} />

@@ -73,6 +73,7 @@ export function OnboardingProvider({ children }) {
     nationality: '',
     phone: '',
     city: '',
+    password: '',
   });
 
   const [hasVehicle, setHasVehicle] = useState(null); // true | false | null
