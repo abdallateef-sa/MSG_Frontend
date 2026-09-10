@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 import { fillTemplate } from '@/utils/fillTemplate';
 import { contractWithVehicle } from '@/constants/contracts/withVehicle';
 import { contractWithoutVehicle } from '@/constants/contracts/withoutVehicle';
+import { ROUTES } from '@/constants/routes';
 
-export default function ContractViewer({ request, onSign, isSigned = false }) {
+export default function ContractViewer({ request, onSign, isSigned = false, onNavigate }) {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [agreed, setAgreed] = useState(isSigned);
 
   const rawTemplate = request?.hasVehicle ? contractWithVehicle : contractWithoutVehicle;
@@ -23,6 +26,12 @@ export default function ContractViewer({ request, onSign, isSigned = false }) {
   const handleSign = () => {
     setAgreed(true);
     if (onSign) onSign();
+    // Navigate to dashboard after a brief delay for UX
+    if (onNavigate) {
+      onNavigate();
+    } else {
+      window.setTimeout(() => navigate(ROUTES.COURIER_DASHBOARD), 500);
+    }
   };
 
   return (

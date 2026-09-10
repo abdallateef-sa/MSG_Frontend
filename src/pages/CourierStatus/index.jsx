@@ -178,6 +178,7 @@ export default function CourierStatus() {
             request={currentRequest}
             onSign={handleContractSigned}
             isSigned={status === REQUEST_STATUS.ACTIVE}
+            onNavigate={() => navigate(ROUTES.COURIER_DASHBOARD)}
           />
         )}
 

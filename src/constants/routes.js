@@ -20,4 +20,14 @@ export const ROUTES = {
   SUPERVISOR_REQUEST_DETAIL: '/supervisor/requests/:id',
   HR_REQUESTS: '/hr/requests',
   HR_REQUEST_DETAIL: '/hr/requests/:id',
+  COURIER_DASHBOARD: '/dashboard',
+  PROFILE: '/profile',
+  OPERATIONS: '/operations',
+  // Placeholder routes (all use PlaceholderPage with title from route)
+  VEHICLE_COMPENSATION: '/placeholder/vehicle-compensation',
+  FINANCIAL_ADVANCE: '/placeholder/financial-advance',
+  ACCIDENT_REPORT: '/placeholder/accident-report',
+  CANCEL_COMPENSATION: '/placeholder/cancel-compensation',
+  ATTENDANCE: '/placeholder/attendance',
+  OPERATIONS: '/placeholder/operations',
 };

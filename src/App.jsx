@@ -10,6 +10,11 @@ import SupervisorRequests from '@/pages/SupervisorRequests';
 import SupervisorRequestDetail from '@/pages/SupervisorRequestDetail';
 import HrRequests from '@/pages/HrRequests';
 import HrRequestDetail from '@/pages/HrRequestDetail';
+import CourierDashboard from '@/pages/CourierDashboard';
+import UserProfile from '@/pages/UserProfile';
+import Operations from '@/pages/Operations';
+import PlaceholderPage from '@/pages/PlaceholderPage';
+import Attendance from '@/pages/Attendance';
 
 export default function App() {
   return (
@@ -31,6 +36,18 @@ export default function App() {
       {/* HR Portal */}
       <Route path={ROUTES.HR_REQUESTS} element={<HrRequests />} />
       <Route path={ROUTES.HR_REQUEST_DETAIL} element={<HrRequestDetail />} />
+
+      {/* Courier Dashboard & Profile */}
+      <Route path={ROUTES.COURIER_DASHBOARD} element={<CourierDashboard />} />
+      <Route path={ROUTES.PROFILE} element={<UserProfile />} />
+
+      {/* Placeholder Pages */}
+      <Route path={ROUTES.VEHICLE_COMPENSATION} element={<PlaceholderPage />} />
+      <Route path={ROUTES.FINANCIAL_ADVANCE} element={<PlaceholderPage />} />
+      <Route path={ROUTES.ACCIDENT_REPORT} element={<PlaceholderPage />} />
+      <Route path={ROUTES.CANCEL_COMPENSATION} element={<PlaceholderPage />} />
+      <Route path={ROUTES.ATTENDANCE} element={<Attendance />} />
+      <Route path={ROUTES.OPERATIONS} element={<Operations />} />
 
       <Route path="*" element={<Navigate to={ROUTES.LOGIN} replace />} />
     </Routes>
