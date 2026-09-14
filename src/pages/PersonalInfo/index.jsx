@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
+import { SUPERVISORS } from '@/constants/supervisors';
 import FormActions from '@/components/shared/FormActions';
+import { toEnglishDigits } from '@/utils/digits';
 
 export default function PersonalInfo() {
   const { t, lang } = useLanguage();
@@ -14,11 +16,13 @@ export default function PersonalInfo() {
 
   const [formData, setFormData] = useState({
     fullName: personal.fullName || '',
-    idNumber: personal.idNumber || '',
+    idNumber: toEnglishDigits(personal.idNumber),
+    passportNumber: toEnglishDigits(personal.passportNumber),
     dob: personal.dob || '',
     nationality: personal.nationality || '',
-    phone: personal.phone || '',
+    phone: toEnglishDigits(personal.phone),
     city: personal.city || '',
+    supervisorId: personal.supervisorId || '',
     password: personal.password || '',
     confirmPassword: '',
   });
@@ -41,6 +45,8 @@ export default function PersonalInfo() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+  const needsPassport = Boolean(formData.nationality) && !['سعودي', 'Saudi'].includes(formData.nationality);
 
   const handleSave = () => {
     if (validateForm()) {
@@ -74,10 +80,17 @@ export default function PersonalInfo() {
           {t.id}
           <input
             required
+            dir="ltr"
             inputMode="numeric"
+            minLength={10}
+            maxLength={10}
+            pattern="[0-9]{10}"
+            title={t.idFormat}
             placeholder={t.idPh}
             value={formData.idNumber}
-            onChange={(e) => handleChange('idNumber', e.target.value)}
+            onChange={(e) =>
+              handleChange('idNumber', toEnglishDigits(e.target.value).replace(/\D/g, '').slice(0, 10))
+            }
           />
         </label>
         <label>
@@ -107,6 +120,18 @@ export default function PersonalInfo() {
             </option>
           </select>
         </label>
+        {needsPassport && (
+          <label>
+            {t.passportNumber}
+            <input
+              required
+              dir="ltr"
+              placeholder={t.passportNumberPh}
+              value={formData.passportNumber}
+              onChange={(e) => handleChange('passportNumber', toEnglishDigits(e.target.value))}
+            />
+          </label>
+        )}
         <label>
           {t.phone}
           <div className="phone-input" dir="ltr">
@@ -116,7 +141,7 @@ export default function PersonalInfo() {
               inputMode="tel"
               placeholder="5xxxxxxxx"
               value={formData.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
+              onChange={(e) => handleChange('phone', toEnglishDigits(e.target.value))}
             />
           </div>
         </label>
@@ -133,6 +158,23 @@ export default function PersonalInfo() {
             <option value="Riyadh">Riyadh</option>
             <option value="Jeddah">Jeddah</option>
             <option value="Dammam">Dammam</option>
+          </select>
+        </label>
+        <label>
+          {t.preferredSupervisor}
+          <select
+            required
+            value={formData.supervisorId}
+            onChange={(e) => handleChange('supervisorId', e.target.value)}
+          >
+            <option value="" disabled>
+              {t.chooseSupervisor}
+            </option>
+            {SUPERVISORS.map((supervisor) => (
+              <option key={supervisor.id} value={supervisor.id}>
+                {lang === 'ar' ? supervisor.nameAr : supervisor.nameEn}
+              </option>
+            ))}
           </select>
         </label>
         <label style={{ gridColumn: '1 / -1' }}>

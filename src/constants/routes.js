@@ -29,5 +29,4 @@ export const ROUTES = {
   ACCIDENT_REPORT: '/placeholder/accident-report',
   CANCEL_COMPENSATION: '/placeholder/cancel-compensation',
   ATTENDANCE: '/placeholder/attendance',
-  OPERATIONS: '/placeholder/operations',
 };

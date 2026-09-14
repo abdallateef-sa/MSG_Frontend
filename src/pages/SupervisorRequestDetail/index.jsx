@@ -6,6 +6,7 @@ import { ROUTES } from '@/constants/routes';
 import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
 import AppHeader from '@/components/shared/AppHeader';
 import CompanyWarehouseSelect from '@/components/shared/CompanyWarehouseSelect';
+import CourierApplicationInfo from '@/components/shared/CourierApplicationInfo';
 
 export default function SupervisorRequestDetail() {
   const { id } = useParams();
@@ -109,58 +110,7 @@ export default function SupervisorRequestDetail() {
             </div>
           )}
 
-          {/* Applicant info grid */}
-          <div
-            className="form-grid"
-            style={{ background: '#f9fafb', padding: '16px', borderRadius: '8px' }}
-          >
-            <div>
-              <small className="muted">الهوية / الإقامة:</small>
-              <div>
-                <b>{request.nationalId}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">رقم الجوال:</small>
-              <div dir="ltr" style={{ textAlign: 'start' }}>
-                <b>+966 {request.phone}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">المدينة المستهدفة:</small>
-              <div>
-                <b>{request.city}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">حالة المركبة:</small>
-              <div>
-                <b>{request.hasVehicle ? 'يمتلك سيارة خاصة' : 'يحتاج سيارة من الشركة'}</b>
-              </div>
-            </div>
-            {request.hasVehicle && (
-              <>
-                <div>
-                  <small className="muted">رقم اللوحة:</small>
-                  <div>
-                    <b>{request.vehiclePlate || '---'}</b>
-                  </div>
-                </div>
-                <div>
-                  <small className="muted">نوع المركبة:</small>
-                  <div>
-                    <b>{request.vehicleType || '---'}</b>
-                  </div>
-                </div>
-              </>
-            )}
-            <div>
-              <small className="muted">البنك والآيبان:</small>
-              <div style={{ fontSize: '11px', wordBreak: 'break-all' }}>
-                <b>{request.bankName}</b> - {request.iban}
-              </div>
-            </div>
-          </div>
+          <CourierApplicationInfo request={request} />
 
           {/* Section: Assign Company & Warehouse */}
           <div style={{ marginTop: '20px' }}>

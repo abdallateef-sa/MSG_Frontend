@@ -158,9 +158,39 @@
   gap: 16px;
 }
 
+.plate-entry {
+  color: #4c5c53;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.plate-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.plate-fields input {
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+
+/* Keep the vehicle type label and its select aligned with the two plate inputs. */
+.plate-entry + label {
+  align-self: end;
+}
+
 .phone-input {
   display: flex;
   direction: ltr;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.iban-input {
+  display: flex;
   border: 1px solid #dce6df;
   border-radius: 8px;
   overflow: hidden;
@@ -175,15 +205,41 @@
   font: 11px Inter;
 }
 
+.iban-input span {
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+  background: #eff4f1;
+  color: #738078;
+  font: 700 11px Inter;
+}
+
 .phone-input input {
   border: 0;
   border-radius: 0;
+}
+
+.iban-input input {
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+}
+
+.iban-input:focus-within {
+  border-color: #00a878;
+  box-shadow: 0 0 0 3px #00a87816;
 }
 
 .helper-text {
   margin: -5px 0 0;
   color: #87948c;
   font-size: 10px;
+}
+
+.form-error {
+  margin: -6px 0 0;
+  color: #dc2626;
+  font-size: 11px;
 }
 
 .form-actions {

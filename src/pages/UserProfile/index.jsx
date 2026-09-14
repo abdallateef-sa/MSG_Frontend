@@ -3,6 +3,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import { COMPANIES } from '@/constants/companies';
+import { SUPERVISORS } from '@/constants/supervisors';
 import { mockDashboard } from '@/constants/mockDashboard';
 import AppHeader from '@/components/shared/AppHeader';
 import BottomNav from '@/components/shared/BottomNav';
@@ -47,8 +48,16 @@ export default function UserProfile() {
     companyObj.warehouses[0];
   const warehouseName = lang === 'ar' ? warehouseObj.nameAr : warehouseObj.nameEn;
 
-  const supervisorName = mockDashboard.supervisor?.name || 'خالد عبدالله';
-  const supervisorPhone = mockDashboard.supervisor?.phone || '+966500000000';
+  const selectedSupervisor = SUPERVISORS.find(
+    (supervisor) => supervisor.id === (personal?.supervisorId || currentRequest?.supervisorId),
+  );
+  const supervisorName =
+    (lang === 'ar' ? selectedSupervisor?.nameAr : selectedSupervisor?.nameEn) ||
+    currentRequest?.supervisorName ||
+    mockDashboard.supervisor?.name ||
+    'خالد عبدالله';
+  const supervisorPhone =
+    selectedSupervisor?.phone || currentRequest?.supervisorPhone || mockDashboard.supervisor?.phone || '+966500000000';
   const sanadNumber = currentRequest?.sanadNumber || 'SND-99881';
   const appId = currentRequest?.id || 'APP-2026-1043';
 

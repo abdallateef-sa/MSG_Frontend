@@ -1515,17 +1515,27 @@
 }
 
 .op-request-item {
+  display: block;
+  width: 100%;
+  font: inherit;
+  text-align: inherit;
   padding: 16px;
   background: #fafbfc;
   border: 1px solid #f0f2f5;
   border-radius: 12px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .op-request-item:hover {
   background: #fff;
   border-color: #e0e8e3;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.op-request-item:focus-visible {
+  outline: 3px solid rgba(19, 154, 67, 0.3);
+  outline-offset: 2px;
 }
 
 .op-req-top-line {
@@ -1639,6 +1649,96 @@
 .op-no-results p {
   margin: 0;
   font-size: 14px;
+}
+
+.op-request-details-modal {
+  max-width: 620px;
+}
+
+.op-request-details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: calc(85vh - 90px);
+  padding: 24px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.op-request-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.op-detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #eef2f0;
+  border-radius: 10px;
+  background: #fafbfc;
+}
+
+.op-detail-label {
+  color: #7b8880;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.op-detail-card strong {
+  overflow-wrap: anywhere;
+  color: #1f2937;
+  font-size: 13px;
+}
+
+.op-details-section {
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f3;
+}
+
+.op-details-section h4 {
+  margin: 0 0 10px;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.op-details-section p {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 9px;
+  background: #f9fafb;
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.op-request-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.op-request-detail-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.op-request-detail-row strong {
+  max-width: 65%;
+  color: #1f2937;
+  text-align: end;
+  overflow-wrap: anywhere;
 }
 
 /* Modal Styles */

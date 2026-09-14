@@ -7,20 +7,25 @@ import { getArrow } from '@/utils/rtl';
 
 export default function Documents() {
   const { t, lang } = useLanguage();
-  const { hasVehicle, submitCourierApplication, updateDocuments } = useOnboarding();
+  const { personal, hasVehicle, documents, submitCourierApplication, updateDocuments } = useOnboarding();
   const navigate = useNavigate();
-  const [uploaded, setUploaded] = useState({});
+  const [uploaded, setUploaded] = useState(documents);
+  const [submitError, setSubmitError] = useState('');
 
   const upload = (name) => {
     setUploaded((current) => ({ ...current, [name]: true }));
+    setSubmitError('');
     if (updateDocuments) {
       updateDocuments(name, true);
     }
   };
 
   // If applicant has no vehicle, vehicle registration document is excluded
+  const needsPassport =
+    Boolean(personal.nationality) && !['سعودي', 'Saudi'].includes(personal.nationality);
   const docs = [
     ['identity', t.identityDoc, t.required],
+    ...(needsPassport ? [['passport', t.passportDoc, t.required]] : []),
     ['license', t.license, t.required],
     ...(hasVehicle !== false ? [['vehicle', t.vehicleDoc, t.required]] : []),
     ['photo', t.personalPhoto, t.optional],
@@ -28,6 +33,13 @@ export default function Documents() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const missingRequiredDocument = docs.some(
+      ([id, , requirement]) => requirement === t.required && !uploaded[id],
+    );
+    if (missingRequiredDocument) {
+      setSubmitError(t.documentsRequired);
+      return;
+    }
     submitCourierApplication();
     navigate(ROUTES.STATUS);
   };
@@ -46,6 +58,7 @@ export default function Documents() {
           </label>
         ))}
       </div>
+      {submitError && <p className="form-error">{submitError}</p>}
       <div className="form-actions">
         <button
           className="secondary-button"

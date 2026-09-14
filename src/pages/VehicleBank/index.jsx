@@ -4,22 +4,57 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import FormActions from '@/components/shared/FormActions';
+import { toEnglishDigits } from '@/utils/digits';
+
+function splitPlate(plate = '') {
+  return {
+    letters: (plate.match(/\p{L}+/gu) || []).join(' '),
+    numbers: toEnglishDigits((plate.match(/[0-9٠-٩۰-۹]+/g) || []).join('')),
+  };
+}
+
+function getIbanNumbers(iban = '') {
+  return toEnglishDigits(iban).replace(/^SA/i, '').replace(/\D/g, '').slice(0, 22);
+}
 
 export default function VehicleBank() {
   const { t, lang } = useLanguage();
   const { hasVehicle, vehicleBank, updateVehicleBank } = useOnboarding();
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
+  const savedPlate = splitPlate(vehicleBank.plate);
 
   const [formData, setFormData] = useState({
     plate: vehicleBank.plate || '',
+    plateLetters: savedPlate.letters,
+    plateNumbers: savedPlate.numbers,
     type: vehicleBank.type || '',
     bank: vehicleBank.bank || '',
-    iban: vehicleBank.iban || '',
+    iban: toEnglishDigits(vehicleBank.iban),
   });
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handlePlateChange = (field, value) => {
+    setFormData((prev) => {
+      const plateLetters = field === 'plateLetters' ? value : prev.plateLetters;
+      const plateNumbers =
+        field === 'plateNumbers' ? toEnglishDigits(value) : prev.plateNumbers;
+
+      return {
+        ...prev,
+        plateLetters,
+        plateNumbers,
+        plate: `${plateLetters.trim()} ${plateNumbers.trim()}`.trim(),
+      };
+    });
+  };
+
+  const handleIbanChange = (value) => {
+    const numbers = toEnglishDigits(value).replace(/\D/g, '').slice(0, 22);
+    handleChange('iban', numbers ? `SA${numbers}` : '');
   };
 
   const handleSave = () => {
@@ -42,15 +77,33 @@ export default function VehicleBank() {
             <h2>{t.vehicleInfo}</h2>
           </div>
           <div className="form-grid">
-            <label>
+            <div className="plate-entry">
               {t.plate}
-              <input
-                required
-                placeholder={t.platePh}
-                value={formData.plate}
-                onChange={(e) => handleChange('plate', e.target.value)}
-              />
-            </label>
+              <div className="plate-fields" role="group" aria-label={t.plate}>
+                <label>
+                  {t.plateLetters}
+                  <input
+                    required
+                    maxLength={3}
+                    placeholder={t.plateLettersPh}
+                    value={formData.plateLetters}
+                    onChange={(e) => handlePlateChange('plateLetters', e.target.value)}
+                  />
+                </label>
+                <label>
+                  {t.plateNumbers}
+                  <input
+                    required
+                    dir="ltr"
+                    inputMode="numeric"
+                    maxLength={4}
+                    placeholder={t.plateNumbersPh}
+                    value={formData.plateNumbers}
+                    onChange={(e) => handlePlateChange('plateNumbers', e.target.value)}
+                  />
+                </label>
+              </div>
+            </div>
             <label>
               {t.type}
               <select
@@ -102,13 +155,20 @@ export default function VehicleBank() {
         </label>
         <label>
           {t.iban}
-          <input
-            required
-            dir="ltr"
-            placeholder={t.ibanPh}
-            value={formData.iban}
-            onChange={(e) => handleChange('iban', e.target.value)}
-          />
+          <div className="iban-input" dir="ltr">
+            <span>SA</span>
+            <input
+              required
+              inputMode="numeric"
+              minLength={22}
+              maxLength={22}
+              pattern="[0-9]{22}"
+              title={t.ibanFormat}
+              placeholder="0000000000000000000000"
+              value={getIbanNumbers(formData.iban)}
+              onChange={(e) => handleIbanChange(e.target.value)}
+            />
+          </div>
         </label>
       </div>
       <p className="helper-text">{t.bankHint}</p>

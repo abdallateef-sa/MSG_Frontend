@@ -5,6 +5,7 @@ import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
 import AppHeader from '@/components/shared/AppHeader';
+import CourierApplicationInfo from '@/components/shared/CourierApplicationInfo';
 
 export default function HrRequestDetail() {
   const { id } = useParams();
@@ -114,42 +115,7 @@ export default function HrRequestDetail() {
             </div>
           )}
 
-          {/* Quick Applicant Summary */}
-          <div
-            className="form-grid"
-            style={{ background: '#f9fafb', padding: '16px', borderRadius: '8px' }}
-          >
-            <div>
-              <small className="muted">الهوية / الإقامة:</small>
-              <div>
-                <b>{request.nationalId}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">رقم الجوال:</small>
-              <div dir="ltr" style={{ textAlign: 'start' }}>
-                <b>+966 {request.phone}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">المدينة:</small>
-              <div>
-                <b>{request.city}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">حالة السيارة:</small>
-              <div>
-                <b>{request.hasVehicle ? 'يمتلك سيارة' : 'توفير سيارة من الشركة'}</b>
-              </div>
-            </div>
-            <div>
-              <small className="muted">الحساب البنكي (آيبان):</small>
-              <div style={{ fontSize: '11px', wordBreak: 'break-all' }}>
-                <b>{request.bankName}</b> - {request.iban}
-              </div>
-            </div>
-          </div>
+          <CourierApplicationInfo request={request} />
 
           {/* STEP 1: When PENDING_HR - Enter Sanad Details */}
           {isPendingHr && (

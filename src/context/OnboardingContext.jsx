@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { REQUEST_STATUS } from '@/constants/requestStatus';
+import { SUPERVISORS } from '@/constants/supervisors';
 
 const OnboardingContext = createContext(null);
 
@@ -9,13 +10,19 @@ const INITIAL_MOCK_REQUESTS = [
     id: 'APP-2026-1043',
     fullName: 'عبدالله محمد الغامدي',
     nationalId: '1098765432',
+    nationality: 'سعودي',
+    dateOfBirth: '1994-08-16',
     phone: '501234567',
     city: 'Riyadh',
+    supervisorId: 'sup-khaled',
+    supervisorName: 'خالد عبدالله',
+    supervisorPhone: '+966500000000',
     hasVehicle: true,
     vehiclePlate: 'أ ب ج ١٢٣٤',
     vehicleType: 'Sedan',
     bankName: 'Al Rajhi Bank',
     iban: 'SA0000000000000000000000',
+    documents: { identity: true, license: true, vehicle: true, photo: true },
     status: REQUEST_STATUS.PENDING_SUPERVISOR,
     companyId: null,
     warehouseId: null,
@@ -28,13 +35,20 @@ const INITIAL_MOCK_REQUESTS = [
     id: 'APP-2026-1044',
     fullName: 'سعيد فهد القحطاني',
     nationalId: '1087654321',
+    nationality: 'مصري',
+    passportNumber: 'A12345678',
+    dateOfBirth: '1991-02-11',
     phone: '559876543',
     city: 'Jeddah',
+    supervisorId: 'sup-fahad',
+    supervisorName: 'فهد العتيبي',
+    supervisorPhone: '+966501234567',
     hasVehicle: false,
     vehiclePlate: '',
     vehicleType: '',
     bankName: 'Riyad Bank',
     iban: 'SA1111111111111111111111',
+    documents: { identity: true, passport: true, license: true, photo: true },
     status: REQUEST_STATUS.PENDING_HR,
     companyId: 'comp-1',
     warehouseId: 'wh-1',
@@ -47,13 +61,19 @@ const INITIAL_MOCK_REQUESTS = [
     id: 'APP-2026-1045',
     fullName: 'خالد عمر الدوسري',
     nationalId: '1076543210',
+    nationality: 'سعودي',
+    dateOfBirth: '1989-11-24',
     phone: '541122334',
     city: 'Dammam',
+    supervisorId: 'sup-noura',
+    supervisorName: 'نورة القحطاني',
+    supervisorPhone: '+966509876543',
     hasVehicle: true,
     vehiclePlate: 'س ص ع ٥٦٧٨',
     vehicleType: 'Cargo van',
     bankName: 'Al Rajhi Bank',
     iban: 'SA2222222222222222222222',
+    documents: { identity: true, license: true, vehicle: true, photo: true },
     status: REQUEST_STATUS.PENDING_ABSHER,
     companyId: 'comp-2',
     warehouseId: 'wh-3',
@@ -69,10 +89,12 @@ export function OnboardingProvider({ children }) {
   const [personal, setPersonal] = useState({
     fullName: '',
     idNumber: '',
+    passportNumber: '',
     dob: '',
     nationality: '',
     phone: '',
     city: '',
+    supervisorId: '',
     password: '',
   });
 
@@ -108,17 +130,27 @@ export function OnboardingProvider({ children }) {
   // Submit current registration as a new application
   const submitCourierApplication = () => {
     const newId = `APP-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+    const selectedSupervisor = SUPERVISORS.find(
+      (supervisor) => supervisor.id === personal.supervisorId,
+    );
     const newApplication = {
       id: newId,
       fullName: personal.fullName || 'مندوب جديد',
       nationalId: personal.idNumber || '10XXXXXXXX',
+      nationality: personal.nationality || '',
+      passportNumber: personal.passportNumber || '',
+      dateOfBirth: personal.dob || '',
       phone: personal.phone || '5XXXXXXXX',
       city: personal.city || 'Riyadh',
+      supervisorId: selectedSupervisor?.id || '',
+      supervisorName: selectedSupervisor?.nameAr || '',
+      supervisorPhone: selectedSupervisor?.phone || '',
       hasVehicle: hasVehicle ?? false,
       vehiclePlate: hasVehicle ? vehicleBank.plate : '',
       vehicleType: hasVehicle ? vehicleBank.type : '',
       bankName: vehicleBank.bank || 'Al Rajhi Bank',
       iban: vehicleBank.iban || '',
+      documents: { ...documents },
       status: REQUEST_STATUS.PENDING_SUPERVISOR,
       companyId: null,
       warehouseId: null,
