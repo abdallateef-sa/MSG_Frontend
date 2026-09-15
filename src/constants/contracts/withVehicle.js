@@ -8,6 +8,8 @@ export const contractWithVehicle = `
 المدينة المستهدفة: {{city}}
 رقم الآيبان: {{iban}}
 رقم السند المعتمد في أبشر: {{sanadNumber}}
+تاريخ السند: {{sanadDate}}
+مبلغ السند: {{sanadAmount}}
 
 بيانات المركبة التابعة للطرف الثاني:
 - رقم اللوحة: {{vehiclePlate}}

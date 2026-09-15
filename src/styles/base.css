@@ -87,6 +87,10 @@ button:disabled {
 
 .primary-button,
 .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   border-radius: 9px;
   padding: 11px 18px;
   border: 1px solid #dce8e1;

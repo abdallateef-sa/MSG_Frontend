@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useAuth, ROLES } from '@/context/AuthContext';
 import { ROUTES } from '@/constants/routes';
 import { getArrow } from '@/utils/rtl';
 import BrandLogo from '@/components/ui/BrandLogo';
@@ -8,10 +9,11 @@ import LanguageButton from '@/components/ui/LanguageButton';
 
 export default function Login() {
   const { t, lang, dir } = useLanguage();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('courier');
+  const [role, setRole] = useState(ROLES.COURIER);
   const [loading, setLoading] = useState(false);
 
   const handleUsernameChange = (e) => {
@@ -19,20 +21,21 @@ export default function Login() {
     setUsername(val);
     const lower = val.toLowerCase();
     if (lower.includes('supervisor') || val.includes('مشرف')) {
-      setRole('supervisor');
+      setRole(ROLES.SUPERVISOR);
     } else if (lower.includes('hr') || val.includes('موارد')) {
-      setRole('hr');
+      setRole(ROLES.HR);
     }
   };
 
   const submit = (event) => {
     event.preventDefault();
     setLoading(true);
+    login(role);
 
     window.setTimeout(() => {
-      if (role === 'supervisor') {
-        navigate(ROUTES.SUPERVISOR_REQUESTS);
-      } else if (role === 'hr') {
+      if (role === ROLES.SUPERVISOR) {
+        navigate(ROUTES.SUPERVISOR_DASHBOARD);
+      } else if (role === ROLES.HR) {
         navigate(ROUTES.HR_REQUESTS);
       } else {
         navigate(ROUTES.STATUS);

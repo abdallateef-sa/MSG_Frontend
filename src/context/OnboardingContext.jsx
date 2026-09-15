@@ -1,88 +1,10 @@
 import { createContext, useContext, useState } from 'react';
-import { REQUEST_STATUS } from '@/constants/requestStatus';
+import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
 import { SUPERVISORS } from '@/constants/supervisors';
+// ⚠️ MOCK DATA — delete when the backend is connected.
+import { MOCK_HIRING_REQUESTS } from '@/constants/mockData';
 
 const OnboardingContext = createContext(null);
-
-// Initial mock requests to test Supervisor and HR portals out-of-the-box
-const INITIAL_MOCK_REQUESTS = [
-  {
-    id: 'APP-2026-1043',
-    fullName: 'عبدالله محمد الغامدي',
-    nationalId: '1098765432',
-    nationality: 'سعودي',
-    dateOfBirth: '1994-08-16',
-    phone: '501234567',
-    city: 'Riyadh',
-    supervisorId: 'sup-khaled',
-    supervisorName: 'خالد عبدالله',
-    supervisorPhone: '+966500000000',
-    hasVehicle: true,
-    vehiclePlate: 'أ ب ج ١٢٣٤',
-    vehicleType: 'Sedan',
-    bankName: 'Al Rajhi Bank',
-    iban: 'SA0000000000000000000000',
-    documents: { identity: true, license: true, vehicle: true, photo: true },
-    status: REQUEST_STATUS.PENDING_SUPERVISOR,
-    companyId: null,
-    warehouseId: null,
-    sanadUrl: '',
-    sanadNumber: '',
-    cancelReason: null,
-    createdAt: '2026-09-06',
-  },
-  {
-    id: 'APP-2026-1044',
-    fullName: 'سعيد فهد القحطاني',
-    nationalId: '1087654321',
-    nationality: 'مصري',
-    passportNumber: 'A12345678',
-    dateOfBirth: '1991-02-11',
-    phone: '559876543',
-    city: 'Jeddah',
-    supervisorId: 'sup-fahad',
-    supervisorName: 'فهد العتيبي',
-    supervisorPhone: '+966501234567',
-    hasVehicle: false,
-    vehiclePlate: '',
-    vehicleType: '',
-    bankName: 'Riyad Bank',
-    iban: 'SA1111111111111111111111',
-    documents: { identity: true, passport: true, license: true, photo: true },
-    status: REQUEST_STATUS.PENDING_HR,
-    companyId: 'comp-1',
-    warehouseId: 'wh-1',
-    sanadUrl: '',
-    sanadNumber: '',
-    cancelReason: null,
-    createdAt: '2026-09-05',
-  },
-  {
-    id: 'APP-2026-1045',
-    fullName: 'خالد عمر الدوسري',
-    nationalId: '1076543210',
-    nationality: 'سعودي',
-    dateOfBirth: '1989-11-24',
-    phone: '541122334',
-    city: 'Dammam',
-    supervisorId: 'sup-noura',
-    supervisorName: 'نورة القحطاني',
-    supervisorPhone: '+966509876543',
-    hasVehicle: true,
-    vehiclePlate: 'س ص ع ٥٦٧٨',
-    vehicleType: 'Cargo van',
-    bankName: 'Al Rajhi Bank',
-    iban: 'SA2222222222222222222222',
-    documents: { identity: true, license: true, vehicle: true, photo: true },
-    status: REQUEST_STATUS.PENDING_ABSHER,
-    companyId: 'comp-2',
-    warehouseId: 'wh-3',
-    sanadUrl: 'https://sanad.sa/verify/99881',
-    sanadNumber: 'SND-99881',
-    cancelReason: null,
-    createdAt: '2026-09-04',
-  },
-];
 
 export function OnboardingProvider({ children }) {
   // Current registration flow state (Courier side)
@@ -110,7 +32,7 @@ export function OnboardingProvider({ children }) {
   const [documents, setDocuments] = useState({});
 
   // Central mock requests state (Shared between Courier, Supervisor, and HR)
-  const [requests, setRequests] = useState(INITIAL_MOCK_REQUESTS);
+  const [requests, setRequests] = useState(MOCK_HIRING_REQUESTS);
 
   // Active courier's current request ID
   const [currentRequestId, setCurrentRequestId] = useState('APP-2026-1043');
@@ -125,6 +47,31 @@ export function OnboardingProvider({ children }) {
   // Helper to update a request by ID
   const updateRequest = (id, updates) => {
     setRequests((prev) => prev.map((req) => (req.id === id ? { ...req, ...updates } : req)));
+  };
+
+  // Supervisor review for a hiring application.
+  // Approve -> assign company/warehouse and move to HR; Reject -> cancel with a mandatory reason.
+  const reviewHiringRequest = (id, { decision, companyId, warehouseId, reason, supervisorName }) => {
+    const now = new Date().toISOString();
+    if (decision === 'approve') {
+      updateRequest(id, {
+        status: REQUEST_STATUS.PENDING_HR,
+        companyId: companyId || null,
+        warehouseId: warehouseId || null,
+        supervisorDecision: 'approved',
+        supervisorDecisionAt: now,
+        supervisorRejectReason: '',
+        supervisorName: supervisorName || undefined,
+      });
+      return;
+    }
+    updateRequest(id, {
+      status: REQUEST_STATUS.CANCELLED,
+      cancelReason: CANCEL_REASON.SUPERVISOR_REJECTED,
+      supervisorDecision: 'rejected',
+      supervisorDecisionAt: now,
+      supervisorRejectReason: reason || '',
+    });
   };
 
   // Submit current registration as a new application
@@ -154,9 +101,12 @@ export function OnboardingProvider({ children }) {
       status: REQUEST_STATUS.PENDING_SUPERVISOR,
       companyId: null,
       warehouseId: null,
-      sanadUrl: '',
       sanadNumber: '',
+      sanadDate: '',
+      sanadAmount: '',
       cancelReason: null,
+      supervisorDecision: null,
+      supervisorRejectReason: '',
       createdAt: new Date().toISOString().split('T')[0],
     };
 
@@ -179,6 +129,7 @@ export function OnboardingProvider({ children }) {
     setCurrentRequestId,
     currentRequest,
     updateRequest,
+    reviewHiringRequest,
     submitCourierApplication,
   };
 

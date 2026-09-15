@@ -5,10 +5,26 @@ import QuickActionButton from '@/components/ui/QuickActionButton';
 import Icon from '@/components/ui/Icon';
 
 const QUICK_ACTIONS = [
-  { key: 'vehicleCompensation', route: ROUTES.VEHICLE_COMPENSATION, icon: 'vehicleCompensation' },
-  { key: 'financialAdvance', route: ROUTES.FINANCIAL_ADVANCE, icon: 'financialAdvance' },
-  { key: 'accidentReport', route: ROUTES.ACCIDENT_REPORT, icon: 'accidentReport' },
-  { key: 'cancelCompensation', route: ROUTES.CANCEL_COMPENSATION, icon: 'cancelCompensation' },
+  {
+    key: 'vehicleCompensation',
+    icon: 'vehicleCompensation',
+    target: { category: 'financial', type: 'vehicleAuthorization' },
+  },
+  {
+    key: 'financialAdvance',
+    icon: 'financialAdvance',
+    target: { category: 'financial', type: 'financialAdvance' },
+  },
+  {
+    key: 'accidentReport',
+    icon: 'accidentReport',
+    target: { category: 'vehicle', type: 'accidentReport' },
+  },
+  {
+    key: 'cancelCompensation',
+    icon: 'cancelCompensation',
+    target: { category: 'financial', type: 'cancelVehicleAuthorization' },
+  },
 ];
 
 export default function QuickActionsGrid() {
@@ -17,12 +33,12 @@ export default function QuickActionsGrid() {
 
   return (
     <div className="quick-actions-grid">
-      {QUICK_ACTIONS.map(({ key, route, icon }) => (
+      {QUICK_ACTIONS.map(({ key, icon, target }) => (
         <QuickActionButton
           key={key}
           icon={<Icon name={icon} size={26} strokeWidth={1.6} />}
           label={t[key]}
-          onClick={() => navigate(route)}
+          onClick={() => navigate(ROUTES.OPERATIONS, { state: { openRequest: target } })}
         />
       ))}
     </div>

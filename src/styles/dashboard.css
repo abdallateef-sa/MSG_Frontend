@@ -454,6 +454,297 @@
   white-space: nowrap;
 }
 
+/* Daily Shipment Log */
+.shipment-card {
+  padding: 20px;
+  margin-bottom: 24px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px #1e4b350d;
+}
+
+.shipment-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.shipment-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.shipment-header-title h2 {
+  margin: 0 0 3px;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.shipment-header-title p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.shipment-header-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #e7f5eb;
+  color: #139a43;
+}
+
+.shipment-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #68766e;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.shipment-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.shipment-block {
+  padding: 14px;
+  border: 1px solid #eef2f0;
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.shipment-block-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eef2f0;
+}
+
+.shipment-block-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #e7f5eb;
+  color: #139a43;
+}
+
+.shipment-block-head h3 {
+  flex: 1;
+  margin: 0;
+  color: #1f2937;
+  font-size: 13px;
+}
+
+.shipment-block-total {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.shipment-block-total strong {
+  margin-inline-start: 4px;
+  color: #139a43;
+  font-size: 14px;
+}
+
+.shipment-block-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shipment-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.shipment-field-label {
+  color: #374151;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.shipment-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1.5px solid #dce6df;
+  border-radius: 10px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.shipment-input:focus {
+  border-color: #139a43;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(19, 154, 67, 0.12);
+}
+
+.shipment-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.shipment-save {
+  width: 100%;
+}
+
+.shipment-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 12px 0 0;
+  color: #087f3c;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Supervisor portal */
+.supervisor-tabs {
+  margin-bottom: 16px;
+  justify-content: flex-start;
+}
+
+.supervisor-review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: default;
+}
+
+.supervisor-review-open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.supervisor-review-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.op-req-status-badge.pending_supervisor,
+.op-req-status-badge.pending_hr {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.supervisor-reject-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+}
+
+.supervisor-reject-confirm {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+.supervisor-reject-confirm:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.supervisor-attendance-grid {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(7, 1fr) 0.8fr;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+}
+
+.supervisor-attendance-grid--head {
+  background: #fafbfc;
+  border-bottom: 1px solid #f0f4f2;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.supervisor-attendance-grid--row {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #f7faf8;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+  text-align: inherit;
+}
+
+.supervisor-attendance-grid--row:hover {
+  background: #f9fbfa;
+}
+
+.supervisor-attendance-name {
+  overflow: hidden;
+  color: #1f2937;
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.supervisor-attendance-grid .attendance-day-number {
+  width: 26px;
+  height: 26px;
+  font-size: 11px;
+}
+
+.supervisor-attendance-total {
+  color: #139a43;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+@media (max-width: 650px) {
+  .supervisor-attendance-grid {
+    grid-template-columns: 1.4fr repeat(7, 1fr) 0.8fr;
+    padding: 8px 10px;
+    gap: 4px;
+  }
+
+  .supervisor-attendance-name {
+    font-size: 11px;
+  }
+}
+
 /* Bottom Navigation */
 .bottom-nav {
   position: fixed;
@@ -512,8 +803,12 @@
 }
 
 .bottom-nav-label {
+  max-width: 100%;
+  overflow: hidden;
   font-size: 11px;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Placeholder Page */
@@ -1011,6 +1306,22 @@
   .bottom-nav-label {
     font-size: 10px;
   }
+
+  .shipment-card {
+    padding: 16px;
+  }
+
+  .shipment-header {
+    flex-direction: column;
+  }
+
+  .shipment-date {
+    order: -1;
+  }
+
+  .shipment-sections {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* User Profile Page Styles */
@@ -1127,6 +1438,12 @@
   font-size: 14px;
   color: #1f2937;
   font-weight: 600;
+}
+
+.profile-status-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .profile-actions-card {

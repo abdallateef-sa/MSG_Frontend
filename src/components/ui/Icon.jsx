@@ -154,6 +154,90 @@ const PATHS = {
       <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z" />
     </>
   ),
+
+  package: (
+    <>
+      <path d="M21 8v8a2 2 0 0 1-1 1.7l-7 3.9a2 2 0 0 1-2 0l-7-3.9A2 2 0 0 1 3 16V8a2 2 0 0 1 1-1.7l7-3.9a2 2 0 0 1 2 0l7 3.9A2 2 0 0 1 21 8Z" />
+      <path d="m3.3 7 8.7 4.9L20.7 7M12 21.5V12" />
+    </>
+  ),
+
+  // Status & actions
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 16v-4M12 8h.01" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
+  edit: (
+    <>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </>
+  ),
+  upload: (
+    <>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <path d="M7 9l5-5 5 5M12 4v12" />
+    </>
+  ),
+  location: (
+    <>
+      <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8Z" />
+      <circle cx="12" cy="10" r="3" />
+    </>
+  ),
+
+  building: (
+    <>
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+      <path d="M9 22v-4h6v4" />
+      <path d="M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01" />
+    </>
+  ),
+
+  // Review & approval
+  badgeCheck: (
+    <>
+      <path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </>
+  ),
+
+  // Documents
+  file: (
+    <>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+      <path d="M14 2v6h6" />
+    </>
+  ),
+  idCard: (
+    <>
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <circle cx="8" cy="11" r="2" />
+      <path d="M5 16.5a3.5 3.5 0 0 1 6 0M15 10h4M15 14h4" />
+    </>
+  ),
+  passport: (
+    <>
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+      <circle cx="12" cy="10" r="3.2" />
+      <path d="M9 17h6" />
+    </>
+  ),
+  image: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <circle cx="9" cy="9" r="2" />
+      <path d="m21 15-5-5L5 21" />
+    </>
+  ),
 };
 
 export default function Icon({ name, size = 24, strokeWidth = 1.8, ...rest }) {

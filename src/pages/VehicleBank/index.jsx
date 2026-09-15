@@ -4,6 +4,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import FormActions from '@/components/shared/FormActions';
+import Icon from '@/components/ui/Icon';
 import { toEnglishDigits } from '@/utils/digits';
 
 function splitPlate(plate = '') {
@@ -73,7 +74,7 @@ export default function VehicleBank() {
       {hasVehicle !== false ? (
         <>
           <div className="section-title">
-            <span>▣</span>
+            <Icon name="vehicle" size={18} />
             <h2>{t.vehicleInfo}</h2>
           </div>
           <div className="form-grid">
@@ -126,7 +127,7 @@ export default function VehicleBank() {
         </>
       ) : (
         <section className="notice-card" style={{ margin: '8px 0 16px' }}>
-          <span>ℹ</span>
+          <Icon name="info" size={18} />
           <div>
             <b>{t.vehicleInfo}</b>
             <p>{t.vehicleSectionNotice}</p>
@@ -135,7 +136,7 @@ export default function VehicleBank() {
       )}
 
       <div className="section-title">
-        <span>▤</span>
+        <Icon name="financialAdvance" size={18} />
         <h2>{t.bankInfo}</h2>
       </div>
       <div className="form-grid">

@@ -4,19 +4,20 @@ import { ROUTES } from '@/constants/routes';
 import Icon from '@/components/ui/Icon';
 
 const TABS = [
-  { key: 'profile', route: ROUTES.PROFILE, icon: 'profile' },
-  { key: 'attendance', route: ROUTES.ATTENDANCE, icon: 'attendance' },
-  { key: 'operations', route: ROUTES.OPERATIONS, icon: 'operations' },
-  { key: 'dashboard', route: ROUTES.COURIER_DASHBOARD, icon: 'dashboard' },
+  { key: 'attendance', labelKey: 'attendance', route: ROUTES.SUPERVISOR_MY_ATTENDANCE, icon: 'attendance' },
+  { key: 'operations', labelKey: 'operations', route: ROUTES.SUPERVISOR_OPERATIONS, icon: 'operations' },
+  { key: 'requests', labelKey: 'reviewShort', route: ROUTES.SUPERVISOR_REQUESTS, icon: 'badgeCheck' },
+  { key: 'couriers', labelKey: 'myCouriers', route: ROUTES.SUPERVISOR_COURIERS, icon: 'supervisor' },
+  { key: 'dashboard', labelKey: 'dashboard', route: ROUTES.SUPERVISOR_DASHBOARD, icon: 'dashboard' },
 ];
 
-export default function BottomNav({ activeTab = 'dashboard' }) {
+export default function SupervisorBottomNav({ activeTab }) {
   const { t } = useLanguage();
   const navigate = useNavigate();
 
   return (
-    <nav className="bottom-nav" role="navigation" aria-label={t.dashboard}>
-      {TABS.map(({ key, route, icon }) => {
+    <nav className="bottom-nav" role="navigation" aria-label={t.supervisorDashboard}>
+      {TABS.map(({ key, labelKey, route, icon }) => {
         const isActive = activeTab === key;
         return (
           <button
@@ -29,7 +30,7 @@ export default function BottomNav({ activeTab = 'dashboard' }) {
             <span className="bottom-nav-icon-wrap">
               <Icon name={icon} size={22} strokeWidth={isActive ? 2.2 : 1.8} />
             </span>
-            <span className="bottom-nav-label">{t[key]}</span>
+            <span className="bottom-nav-label">{t[labelKey]}</span>
           </button>
         );
       })}

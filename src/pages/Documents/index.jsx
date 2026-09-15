@@ -4,6 +4,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import { getArrow } from '@/utils/rtl';
+import Icon from '@/components/ui/Icon';
 
 export default function Documents() {
   const { t, lang } = useLanguage();
@@ -12,12 +13,17 @@ export default function Documents() {
   const [uploaded, setUploaded] = useState(documents);
   const [submitError, setSubmitError] = useState('');
 
-  const upload = (name) => {
-    setUploaded((current) => ({ ...current, [name]: true }));
+  const upload = (name, file) => {
     setSubmitError('');
-    if (updateDocuments) {
-      updateDocuments(name, true);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setUploaded((current) => ({ ...current, [name]: true }));
+      if (updateDocuments) {
+        updateDocuments(name, reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   // If applicant has no vehicle, vehicle registration document is excluded
@@ -51,8 +57,14 @@ export default function Documents() {
       <div className="upload-grid">
         {docs.map(([id, label, requirement]) => (
           <label className={`upload-card ${uploaded[id] ? 'uploaded' : ''}`} key={id}>
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={() => upload(id)} />
-            <span className="upload-icon">{uploaded[id] ? '✓' : '↑'}</span>
+            <input
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={(event) => upload(id, event.target.files?.[0])}
+            />
+            <span className="upload-icon">
+              <Icon name={uploaded[id] ? 'check' : 'upload'} size={18} strokeWidth={2} />
+            </span>
             <b>{uploaded[id] ? t.uploaded : label}</b>
             <small>{uploaded[id] ? t.replace : `${requirement} · ${t.pdfOrImage}`}</small>
           </label>

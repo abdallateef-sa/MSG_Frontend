@@ -6,6 +6,7 @@ import { ROUTES } from '@/constants/routes';
 import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
 import AppHeader from '@/components/shared/AppHeader';
 import CourierApplicationInfo from '@/components/shared/CourierApplicationInfo';
+import Icon from '@/components/ui/Icon';
 
 export default function HrRequestDetail() {
   const { id } = useParams();
@@ -15,8 +16,9 @@ export default function HrRequestDetail() {
 
   const request = requests.find((r) => r.id === id);
 
-  const [sanadUrl, setSanadUrl] = useState(request?.sanadUrl || '');
   const [sanadNumber, setSanadNumber] = useState(request?.sanadNumber || '');
+  const [sanadDate, setSanadDate] = useState(request?.sanadDate || '');
+  const [sanadAmount, setSanadAmount] = useState(request?.sanadAmount || '');
   const [feedbackMsg, setFeedbackMsg] = useState('');
 
   if (!request) {
@@ -40,14 +42,15 @@ export default function HrRequestDetail() {
 
   const handleSendToAbsher = (e) => {
     e.preventDefault();
-    if (!sanadNumber.trim()) {
-      alert('يجب إدخال رقم السند أولاً قبل إرساله لأبشر');
+    if (!sanadNumber.trim() || !sanadDate || !sanadAmount) {
+      alert('يجب إدخال رقم السند وتاريخه ومبلغه قبل إرساله لأبشر');
       return;
     }
 
     updateRequest(request.id, {
-      sanadUrl,
       sanadNumber,
+      sanadDate,
+      sanadAmount,
       status: REQUEST_STATUS.PENDING_ABSHER,
     });
     setFeedbackMsg('تم حفظ بيانات السند وتحديث الحالة إلى: بانتظار قرار المندوب في أبشر');
@@ -101,17 +104,9 @@ export default function HrRequestDetail() {
           </div>
 
           {feedbackMsg && (
-            <div
-              style={{
-                padding: '12px 16px',
-                background: '#ecfdf5',
-                border: '1px solid #a7f3d0',
-                borderRadius: '8px',
-                color: '#065f46',
-                fontWeight: '500',
-              }}
-            >
-              ✓ {feedbackMsg}
+            <div className="hr-feedback-banner">
+              <Icon name="check" size={16} strokeWidth={2.4} />
+              <span>{feedbackMsg}</span>
             </div>
           )}
 
@@ -121,12 +116,12 @@ export default function HrRequestDetail() {
           {isPendingHr && (
             <form onSubmit={handleSendToAbsher} style={{ marginTop: '20px' }}>
               <div className="section-title">
-                <span>📝</span>
+                <Icon name="edit" size={18} />
                 <h2>تسجيل بيانات السند الإلكتروني</h2>
               </div>
               <p className="muted" style={{ margin: '4px 0 16px' }}>
-                يقوم مسؤول الـ HR بإدخال بيانات المندوب في منصة نافذ/سند يدوياً ثم إدخال رابط ورقم
-                السند هنا لإشعار المندوب.
+                يقوم مسؤول الـ HR بإدخال بيانات المندوب في منصة نافذ/سند يدوياً ثم إدخال رقم السند
+                وتاريخه ومبلغه هنا لإشعار المندوب.
               </p>
 
               <div className="form-grid">
@@ -141,12 +136,25 @@ export default function HrRequestDetail() {
                 </label>
 
                 <label>
-                  رابط السند (اختياري)
+                  تاريخ السند
                   <input
-                    type="url"
-                    placeholder="https://sanad.sa/verify/..."
-                    value={sanadUrl}
-                    onChange={(e) => setSanadUrl(e.target.value)}
+                    required
+                    type="date"
+                    value={sanadDate}
+                    onChange={(e) => setSanadDate(e.target.value)}
+                  />
+                </label>
+
+                <label>
+                  مبلغ السند (ر.س)
+                  <input
+                    required
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    placeholder="مثال: 5000"
+                    value={sanadAmount}
+                    onChange={(e) => setSanadAmount(e.target.value)}
                   />
                 </label>
               </div>
@@ -155,7 +163,7 @@ export default function HrRequestDetail() {
                 <button
                   className="primary-button"
                   type="submit"
-                  disabled={!sanadNumber.trim()}
+                  disabled={!sanadNumber.trim() || !sanadDate || !sanadAmount}
                   style={{ width: '100%' }}
                 >
                   تم الإرسال لأبشر (نقل الطلب لانتظار قرار المندوب)
@@ -168,34 +176,41 @@ export default function HrRequestDetail() {
           {isPendingAbsher && (
             <div style={{ marginTop: '20px' }}>
               <div className="section-title">
-                <span>⏳</span>
+                <Icon name="clock" size={18} />
                 <h2>مرحلة قرار المندوب في منصة أبشر</h2>
               </div>
 
               <section
                 className="notice-card"
-                style={{ borderColor: '#2563eb', background: '#eff6ff', margin: '12px 0' }}
+                style={{ borderColor: '#139a43', background: '#ecfdf5', margin: '12px 0' }}
               >
-                <span style={{ color: '#2563eb' }}>ℹ</span>
+                <Icon name="info" size={18} style={{ color: '#139a43' }} />
                 <div>
-                  <b style={{ color: '#1e40af' }}>بانتظار قرار المندوب على تطبيق أبشر</b>
-                  <p style={{ color: '#1e3a8a', margin: '4px 0' }}>
+                  <b style={{ color: '#065f46' }}>بانتظار قرار المندوب على تطبيق أبشر</b>
+                  <p style={{ color: '#065f46', margin: '4px 0' }}>
                     تم إرسال السند بنجاح. المندوب الآن يراجع السند من داخل حسابه الشخصي في أبشر
                     ويوافق أو يرفض هناك.
                   </p>
-                  <div style={{ marginTop: '8px', fontSize: '13px' }}>
-                    <strong>رقم السند:</strong> <code>{request.sanadNumber}</code>
-                    {request.sanadUrl && (
-                      <span style={{ margin: '0 12px' }}>
-                        |{' '}
-                        <a
-                          href={request.sanadUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{ color: '#2563eb' }}
-                        >
-                          رابط المعاينة ↗
-                        </a>
+                  <div
+                    style={{
+                      marginTop: '8px',
+                      fontSize: '13px',
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '12px',
+                    }}
+                  >
+                    <span>
+                      <strong>رقم السند:</strong> <code>{request.sanadNumber}</code>
+                    </span>
+                    {request.sanadDate && (
+                      <span>
+                        <strong>تاريخ السند:</strong> {request.sanadDate}
+                      </span>
+                    )}
+                    {request.sanadAmount && (
+                      <span>
+                        <strong>مبلغ السند:</strong> {request.sanadAmount} ر.س
                       </span>
                     )}
                   </div>
@@ -217,7 +232,8 @@ export default function HrRequestDetail() {
                 </button>
 
                 <button className="primary-button" type="button" onClick={handleAbsherApprove}>
-                  ✓ المندوب وافق في أبشر (إصدار العقد)
+                  <Icon name="check" size={16} strokeWidth={2.4} />
+                  <span>المندوب وافق في أبشر (إصدار العقد)</span>
                 </button>
               </div>
             </div>
@@ -243,6 +259,20 @@ export default function HrRequestDetail() {
                 <div style={{ fontSize: '13px' }}>
                   <span>
                     رقم السند: <b>{request.sanadNumber}</b>
+                  </span>
+                </div>
+              )}
+              {request.sanadDate && (
+                <div style={{ fontSize: '13px' }}>
+                  <span>
+                    تاريخ السند: <b>{request.sanadDate}</b>
+                  </span>
+                </div>
+              )}
+              {request.sanadAmount && (
+                <div style={{ fontSize: '13px' }}>
+                  <span>
+                    مبلغ السند: <b>{request.sanadAmount} ر.س</b>
                   </span>
                 </div>
               )}

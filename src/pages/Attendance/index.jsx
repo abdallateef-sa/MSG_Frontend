@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import AppHeader from '@/components/shared/AppHeader';
-import BottomNav from '@/components/shared/BottomNav';
+import PortalBottomNav from '@/components/shared/PortalBottomNav';
 import Icon from '@/components/ui/Icon';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 
 const STORAGE_KEY = 'msg-courier-attendance';
 
@@ -29,6 +30,7 @@ function readAttendanceHistory() {
 
 export default function Attendance() {
   const { t, lang, dir } = useLanguage();
+  const { user } = useAuth();
   const todayKey = getTodayKey();
   const [history, setHistory] = useState(readAttendanceHistory);
   const [attendance, setAttendance] = useState(() => {
@@ -96,7 +98,10 @@ export default function Attendance() {
 
   return (
     <div className="attendance-page" dir={dir}>
-      <AppHeader title={t.attendance} variant="dashboard" />
+      <AppHeader
+        title={t.attendance}
+        variant={user.role === 'supervisor' ? 'supervisor' : 'dashboard'}
+      />
 
       <main className="attendance-main">
         <section className="attendance-hero">
@@ -266,7 +271,7 @@ export default function Attendance() {
         </section>
       </main>
 
-      <BottomNav activeTab="attendance" />
+      <PortalBottomNav activeTab="attendance" />
     </div>
   );
 }

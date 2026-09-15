@@ -1,16 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import { COMPANIES } from '@/constants/companies';
 import { SUPERVISORS } from '@/constants/supervisors';
 import { mockDashboard } from '@/constants/mockDashboard';
 import AppHeader from '@/components/shared/AppHeader';
-import BottomNav from '@/components/shared/BottomNav';
+import CourierBottomNav from '@/components/shared/CourierBottomNav';
 import Icon from '@/components/ui/Icon';
 
 export default function UserProfile() {
   const { t, lang, dir, toggleLang } = useLanguage();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const { personal, vehicleBank, hasVehicle, currentRequest } = useOnboarding();
 
@@ -76,14 +78,21 @@ export default function UserProfile() {
           <div className="profile-hero-info">
             <h1>{fullName}</h1>
             <div className="profile-hero-meta">
-              <span className="status success" style={{ fontSize: '11px' }}>
-                ✓ {t.accountStatusActive}
+              <span className="status success profile-status-inline" style={{ fontSize: '11px' }}>
+                <Icon name="check" size={13} strokeWidth={2.4} />
+                {t.accountStatusActive}
               </span>
               <span>
                 {t.courierIdBadge}: <b>{appId}</b>
               </span>
-              <span>📍 {city}</span>
-              <span>📦 {mockDashboard.zone || '1Mile'}</span>
+              <span className="req-meta-item">
+                <Icon name="location" size={13} />
+                {city}
+              </span>
+              <span className="req-meta-item">
+                <Icon name="zone" size={13} />
+                {mockDashboard.zone || '1Mile'}
+              </span>
             </div>
           </div>
         </section>
@@ -172,8 +181,9 @@ export default function UserProfile() {
             </div>
             <div className="profile-data-item">
               <span className="profile-data-label">{t.contractStatus}</span>
-              <span className="profile-data-val" style={{ color: '#139a43' }}>
-                ✓ {t.contractActiveSigned}
+              <span className="profile-data-val profile-status-inline" style={{ color: '#139a43' }}>
+                <Icon name="check" size={14} strokeWidth={2.4} />
+                {t.contractActiveSigned}
               </span>
             </div>
           </div>
@@ -280,7 +290,10 @@ export default function UserProfile() {
           <button
             className="secondary-button"
             type="button"
-            onClick={() => navigate(ROUTES.LOGIN)}
+            onClick={() => {
+              logout();
+              navigate(ROUTES.LOGIN);
+            }}
             style={{
               flex: 1,
               minWidth: '160px',
@@ -299,7 +312,7 @@ export default function UserProfile() {
       </main>
 
       {/* Bottom Navigation */}
-      <BottomNav activeTab="profile" />
+      <CourierBottomNav />
     </div>
   );
 }

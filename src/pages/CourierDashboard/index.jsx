@@ -1,23 +1,28 @@
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
+import { useOperations } from '@/context/OperationsContext';
 import { ROUTES } from '@/constants/routes';
 import AppHeader from '@/components/shared/AppHeader';
 import GreetingCard from '@/components/shared/GreetingCard';
 import SupervisorCard from '@/components/shared/SupervisorCard';
 import VehicleCard from '@/components/shared/VehicleCard';
 import QuickActionsGrid from '@/components/shared/QuickActionsGrid';
-import RequestListItem from '@/components/shared/RequestListItem';
-import BottomNav from '@/components/shared/BottomNav';
+import OperationRequestCard from '@/components/shared/OperationRequestCard';
+import CourierBottomNav from '@/components/shared/CourierBottomNav';
 import { mockDashboard } from '@/constants/mockDashboard';
+
+const RECENT_REQUESTS_LIMIT = 3;
 
 export default function CourierDashboard() {
   const navigate = useNavigate();
   const { t, dir } = useLanguage();
   const { hasVehicle } = useOnboarding();
+  const { requests } = useOperations();
 
   // Use mock data (later replaced by API)
   const data = mockDashboard;
+  const recentRequests = requests.slice(0, RECENT_REQUESTS_LIMIT);
 
   return (
     <div className="dashboard-page" dir={dir}>
@@ -43,6 +48,13 @@ export default function CourierDashboard() {
         <section className="quick-actions-section">
           <div className="section-header">
             <h2>{t.operationsCenter}</h2>
+            <button
+              className="link-button"
+              type="button"
+              onClick={() => navigate(ROUTES.OPERATIONS)}
+            >
+              {t.viewAll}
+            </button>
           </div>
           <QuickActionsGrid />
         </section>
@@ -59,14 +71,14 @@ export default function CourierDashboard() {
               {t.viewAll}
             </button>
           </div>
-          <div className="requests-list">
-            {data.recentRequests.map((req) => (
-              <RequestListItem
-                key={req.id}
-                title={req.title}
-                requestId={req.id}
-                date={req.date}
-                status={req.status}
+          <div className="op-requests-list">
+            {recentRequests.map((request) => (
+              <OperationRequestCard
+                key={request.id}
+                request={request}
+                onClick={() =>
+                  navigate(ROUTES.OPERATIONS, { state: { openRequestId: request.id } })
+                }
               />
             ))}
           </div>
@@ -74,7 +86,7 @@ export default function CourierDashboard() {
       </main>
 
       {/* Bottom Navigation */}
-      <BottomNav activeTab="dashboard" />
+      <CourierBottomNav activeTab="dashboard" />
     </div>
   );
 }

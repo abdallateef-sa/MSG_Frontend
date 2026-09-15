@@ -90,15 +90,29 @@ _(No environment variables are required currently. Future variables like API bas
 
 ## 🧩 Architecture Overview
 
-- **Courier Flow:** Login → Personal Info → Vehicle/Bank → Documents → Status
-- **Supervisor Portal:** List requests → Review + assign company/warehouse
-- **HR Portal:** List requests → Enter Sanad → Send to Absher → Record decision
-- **State Management:** React Context (`OnboardingContext`, `LanguageContext`) + `localStorage` persistence
-- **Routing:** React Router DOM v7 with centralized route constants
+- **Courier Flow:** Login → Personal Info → Vehicle/Bank → Documents → Status → Contract → Dashboard
+- **Courier Dashboard:** Operations, Attendance, Shipments (PPD/COD/Pickup), Profile
+- **Supervisor Portal:** Dashboard → My Couriers / Request Review / Team Attendance + Operations / Attendance / Shipments (own)
+- **HR Portal:** Hiring requests (Sanad → Absher → Contract) + Operations approvals
+- **State Management:** React Context (`AuthContext`, `OnboardingContext`, `OperationsContext`, `LanguageContext`) + `localStorage` for language/role
+- **Routing:** React Router DOM v7 with centralized route constants and role-based guards (`RequireRole`)
+
+## 📚 Documentation
+
+All project docs live in [`docs/`](./docs):
+
+| File                        | Description                                              |
+| --------------------------- | -------------------------------------------------------- |
+| `docs/BACKEND_ENDPOINTS.md` | All backend endpoints required by the current UI         |
+| `docs/PROJECT_REVIEW.md`    | Comprehensive project review                             |
+| `docs/AUDIT_REPORT.md`      | Security & architecture audit                            |
+| `docs/ARCHITECTURE.md`      | Legacy architecture reference (partly outdated)          |
+| `docs/IMPLEMENTATION_PLAN.md` / `docs/IMPLEMENTATION_DASHBOARD.md` | Original implementation plans |
+| `docs/FRONTEND_PLAN.md`     | Original frontend plan                                   |
 
 ## 📋 Known TODOs / Technical Debt
 
-- [ ] **Authentication:** Current login is a mock — no real auth, tokens, or session management. All supervisor/HR routes are publicly accessible (protected only by `RoleGate` component with `TODO`).
+- [ ] **Authentication:** Current login is a mock — no real auth, tokens, or session management. Routes are guarded client-side by role (`RequireRole`), but the backend must remain the authorization boundary.
 - [ ] **API Layer:** `src/services/` is empty — no actual API calls. All data is mock/in-memory.
 - [ ] **Form Validation:** Only HTML5 validation (`required`, `type`, `inputMode`). No schema validation (Zod/Yup) or server-side error handling.
 - [ ] **File Uploads:** Document uploads only track state locally — no actual file upload to server.

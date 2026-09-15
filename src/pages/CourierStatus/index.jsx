@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes';
 import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
 import AppHeader from '@/components/shared/AppHeader';
 import ContractViewer from '@/components/shared/ContractViewer';
+import Icon from '@/components/ui/Icon';
 
 export default function CourierStatus() {
   const { t, dir } = useLanguage();
@@ -49,7 +50,10 @@ export default function CourierStatus() {
   ];
 
   const handleContractSigned = () => {
-    updateRequest(currentRequest.id, { status: REQUEST_STATUS.ACTIVE });
+    if (currentRequest?.id) {
+      updateRequest(currentRequest.id, { status: REQUEST_STATUS.ACTIVE });
+    }
+    navigate(ROUTES.COURIER_DASHBOARD);
   };
 
   return (
@@ -143,12 +147,12 @@ export default function CourierStatus() {
         {status === REQUEST_STATUS.PENDING_ABSHER && (
           <section
             className="notice-card"
-            style={{ borderColor: '#2563eb', background: '#eff6ff' }}
+            style={{ borderColor: '#139a43', background: '#ecfdf5' }}
           >
-            <span style={{ color: '#2563eb' }}>◷</span>
+            <Icon name="clock" size={18} style={{ color: '#139a43' }} />
             <div>
-              <b style={{ color: '#1e40af' }}>{t.statusPendingAbsher}</b>
-              <p style={{ color: '#1e3a8a' }}>{t.statusPendingAbsherHint}</p>
+              <b style={{ color: '#065f46' }}>{t.statusPendingAbsher}</b>
+              <p style={{ color: '#065f46' }}>{t.statusPendingAbsherHint}</p>
               {currentRequest?.sanadNumber && (
                 <div style={{ marginTop: '8px', fontSize: '12px' }}>
                   <strong>رقم السند: </strong> <code>{currentRequest.sanadNumber}</code>
@@ -178,7 +182,6 @@ export default function CourierStatus() {
             request={currentRequest}
             onSign={handleContractSigned}
             isSigned={status === REQUEST_STATUS.ACTIVE}
-            onNavigate={() => navigate(ROUTES.COURIER_DASHBOARD)}
           />
         )}
 

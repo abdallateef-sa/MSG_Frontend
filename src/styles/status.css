@@ -134,6 +134,13 @@
   font-weight: 700;
 }
 
+.notice-card > svg {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: currentColor;
+}
+
 .notice-card b {
   font-size: 11px;
 }
