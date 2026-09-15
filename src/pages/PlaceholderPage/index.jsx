@@ -10,7 +10,6 @@ const PLACEHOLDER_TITLES = {
   [ROUTES.FINANCIAL_ADVANCE]: { ar: 'سلفة مالية', en: 'Financial Advance' },
   [ROUTES.ACCIDENT_REPORT]: { ar: 'بلاغ حادث', en: 'Accident Report' },
   [ROUTES.CANCEL_COMPENSATION]: { ar: 'إلغاء تعويض', en: 'Cancel Compensation' },
-  [ROUTES.ATTENDANCE]: { ar: 'الحضور', en: 'Attendance' },
 };
 
 export default function PlaceholderPage() {

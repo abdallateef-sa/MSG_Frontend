@@ -29,13 +29,13 @@ export const ROUTES = {
   HR_REQUESTS: '/hr/requests',
   HR_REQUEST_DETAIL: '/hr/requests/:id',
   COURIER_DASHBOARD: '/courier/dashboard',
-  PROFILE: '/profile',
-  OPERATIONS: '/operations',
-  SHIPMENTS: '/shipments',
+  PROFILE: '/courier/profile',
+  OPERATIONS: '/courier/operations',
+  SHIPMENTS: '/courier/shipments',
+  ATTENDANCE: '/courier/attendance',
   // Placeholder routes (all use PlaceholderPage with title from route)
   VEHICLE_COMPENSATION: '/placeholder/vehicle-compensation',
   FINANCIAL_ADVANCE: '/placeholder/financial-advance',
   ACCIDENT_REPORT: '/placeholder/accident-report',
   CANCEL_COMPENSATION: '/placeholder/cancel-compensation',
-  ATTENDANCE: '/placeholder/attendance',
 };
