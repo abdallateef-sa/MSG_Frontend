@@ -4,14 +4,13 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
-import AppHeader from '@/components/shared/AppHeader';
 import CourierApplicationInfo from '@/components/shared/CourierApplicationInfo';
 import Icon from '@/components/ui/Icon';
 
 export default function HrRequestDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { dir } = useLanguage();
+  const { t } = useLanguage();
   const { requests, updateRequest } = useOnboarding();
 
   const request = requests.find((r) => r.id === id);
@@ -23,16 +22,16 @@ export default function HrRequestDetail() {
 
   if (!request) {
     return (
-      <div className="onboarding-page" dir={dir}>
-        <AppHeader title="الموارد البشرية (HR)" />
-        <main className="onboarding-main">
-          <div className="courier-card">
-            <h2>الطلب غير موجود</h2>
-            <button className="secondary-button" onClick={() => navigate(ROUTES.HR_REQUESTS)}>
-              العودة لقائمة طلبات HR
-            </button>
-          </div>
-        </main>
+      <div>
+        <div className="admin-page-header">
+          <h1>{t.navRecruitment}</h1>
+        </div>
+        <div className="admin-card">
+          <h2>{t.noRequests}</h2>
+          <button className="secondary-button" onClick={() => navigate(ROUTES.HR_REQUESTS)}>
+            {t.navRecruitment}
+          </button>
+        </div>
       </div>
     );
   }
@@ -74,22 +73,16 @@ export default function HrRequestDetail() {
   };
 
   return (
-    <div className="onboarding-page" dir={dir}>
-      <AppHeader title="مراجعة السند وقرار أبشر (HR)" />
-
-      <main
-        className="onboarding-main"
-        style={{ maxWidth: '750px', width: '100%', margin: '0 auto', padding: '24px 16px' }}
+    <div>
+      <button
+        className="link-button"
+        onClick={() => navigate(ROUTES.HR_REQUESTS)}
+        style={{ marginBottom: '16px', display: 'inline-block' }}
       >
-        <button
-          className="link-button"
-          onClick={() => navigate(ROUTES.HR_REQUESTS)}
-          style={{ marginBottom: '16px', display: 'inline-block' }}
-        >
-          ← العودة لقائمة طلبات HR
-        </button>
+        ← العودة لقائمة طلبات HR
+      </button>
 
-        <div className="courier-card form-stack">
+      <div className="admin-card form-stack">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <span className="eyebrow">إدارة السند وموافقة أبشر</span>
@@ -283,8 +276,7 @@ export default function HrRequestDetail() {
               )}
             </div>
           )}
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

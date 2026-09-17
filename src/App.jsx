@@ -15,8 +15,25 @@ import SupervisorCourierDetail from '@/pages/SupervisorCourierDetail';
 import SupervisorAttendance from '@/pages/SupervisorAttendance';
 import SupervisorRequests from '@/pages/SupervisorRequests';
 import SupervisorRequestDetail from '@/pages/SupervisorRequestDetail';
+import HrLayout from '@/layouts/HrLayout';
+import HrDashboard from '@/pages/HrDashboard';
+import HrMasterData from '@/pages/HrMasterData';
+import HrSupervisors from '@/pages/HrSupervisors';
+import HrSupervisorDetail from '@/pages/HrSupervisorDetail';
 import HrRequests from '@/pages/HrRequests';
 import HrRequestDetail from '@/pages/HrRequestDetail';
+import HrEmployees from '@/pages/HrEmployees';
+import HrEmployeeDetail from '@/pages/HrEmployeeDetail';
+import HrDocuments from '@/pages/HrDocuments';
+import HrAttendance from '@/pages/HrAttendance';
+import HrOperations from '@/pages/HrOperations';
+import HrContracts from '@/pages/HrContracts';
+import HrFinancials from '@/pages/HrFinancials';
+import HrPayroll from '@/pages/HrPayroll';
+import HrFleet from '@/pages/HrFleet';
+import HrReports from '@/pages/HrReports';
+import HrNotifications from '@/pages/HrNotifications';
+import HrAudit from '@/pages/HrAudit';
 import CourierDashboard from '@/pages/CourierDashboard';
 import UserProfile from '@/pages/UserProfile';
 import Operations from '@/pages/Operations';
@@ -66,8 +83,27 @@ export default function App() {
 
       {/* HR Portal */}
       <Route element={<RequireRole role={ROLES.HR} />}>
-        <Route path={ROUTES.HR_REQUESTS} element={<HrRequests />} />
-        <Route path={ROUTES.HR_REQUEST_DETAIL} element={<HrRequestDetail />} />
+        <Route path="/hr/requests" element={<Navigate to={ROUTES.HR_REQUESTS} replace />} />
+        <Route element={<HrLayout />}>
+          <Route path={ROUTES.HR_DASHBOARD} element={<HrDashboard />} />
+          <Route path={ROUTES.HR_MASTER_DATA} element={<HrMasterData />} />
+          <Route path={ROUTES.HR_SUPERVISORS} element={<HrSupervisors />} />
+          <Route path={ROUTES.HR_SUPERVISOR_DETAIL} element={<HrSupervisorDetail />} />
+          <Route path={ROUTES.HR_REQUESTS} element={<HrRequests />} />
+          <Route path={ROUTES.HR_REQUEST_DETAIL} element={<HrRequestDetail />} />
+          <Route path={ROUTES.HR_EMPLOYEES} element={<HrEmployees />} />
+          <Route path={`${ROUTES.HR_EMPLOYEES}/:id`} element={<HrEmployeeDetail />} />
+          <Route path={ROUTES.HR_DOCUMENTS} element={<HrDocuments />} />
+          <Route path={ROUTES.HR_ATTENDANCE} element={<HrAttendance />} />
+          <Route path={ROUTES.HR_OPERATIONS} element={<HrOperations />} />
+          <Route path={ROUTES.HR_CONTRACTS} element={<HrContracts />} />
+          <Route path={ROUTES.HR_FLEET} element={<HrFleet />} />
+          <Route path={ROUTES.HR_FINANCIALS} element={<HrFinancials />} />
+          <Route path={ROUTES.HR_PAYROLL} element={<HrPayroll />} />
+          <Route path={ROUTES.HR_REPORTS} element={<HrReports />} />
+          <Route path={ROUTES.HR_NOTIFICATIONS} element={<HrNotifications />} />
+          <Route path={ROUTES.HR_AUDIT} element={<HrAudit />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to={ROUTES.LOGIN} replace />} />

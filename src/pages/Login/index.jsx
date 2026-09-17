@@ -36,7 +36,7 @@ export default function Login() {
       if (role === ROLES.SUPERVISOR) {
         navigate(ROUTES.SUPERVISOR_DASHBOARD);
       } else if (role === ROLES.HR) {
-        navigate(ROUTES.HR_REQUESTS);
+        navigate(ROUTES.HR_DASHBOARD);
       } else {
         navigate(ROUTES.STATUS);
       }

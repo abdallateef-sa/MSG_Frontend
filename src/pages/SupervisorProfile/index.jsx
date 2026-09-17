@@ -3,7 +3,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
-import { SUPERVISORS } from '@/constants/supervisors';
+import { useMasterData } from '@/context/MasterDataContext';
 import AppHeader from '@/components/shared/AppHeader';
 import SupervisorBottomNav from '@/components/shared/SupervisorBottomNav';
 import Icon from '@/components/ui/Icon';
@@ -22,10 +22,11 @@ function DataItem({ label, value, ltr = false }) {
 export default function SupervisorProfile() {
   const { t, lang, dir, toggleLang } = useLanguage();
   const { user, logout } = useAuth();
+  const { supervisors } = useMasterData();
   const { requests } = useOnboarding();
   const navigate = useNavigate();
 
-  const supervisor = SUPERVISORS.find((item) => item.id === user.id);
+  const supervisor = supervisors.find((item) => item.id === user.id);
   const isAr = lang === 'ar';
   const name = (isAr ? supervisor?.nameAr : supervisor?.nameEn) || user.name;
   const phone = supervisor?.phone || '—';

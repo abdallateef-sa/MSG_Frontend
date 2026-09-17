@@ -1,21 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
+import { useMasterData } from '@/context/MasterDataContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
 import { REQUEST_STATUS } from '@/constants/requestStatus';
-import { COMPANIES } from '@/constants/companies';
 import { getAttendanceSummary } from '@/constants/mockAttendance';
+import { resolveAssignment } from '@/utils/assignment';
 import AppHeader from '@/components/shared/AppHeader';
 import SupervisorBottomNav from '@/components/shared/SupervisorBottomNav';
 import Icon from '@/components/ui/Icon';
-
-function resolveAssignment(request, isAr) {
-  const company = COMPANIES.find((item) => item.id === request.companyId);
-  const warehouse = company?.warehouses.find((item) => item.id === request.warehouseId);
-  if (!company || !warehouse) return null;
-  return { company: isAr ? company.nameAr : company.nameEn, warehouse: isAr ? warehouse.nameAr : warehouse.nameEn };
-}
 
 const STATUS_CLASS = {
   [REQUEST_STATUS.CANCELLED]: 'danger',
@@ -25,6 +19,7 @@ const STATUS_CLASS = {
 export default function SupervisorCouriers() {
   const { t, lang, dir } = useLanguage();
   const { user } = useAuth();
+  const { companies } = useMasterData();
   const { requests } = useOnboarding();
   const navigate = useNavigate();
   const isAr = lang === 'ar';
@@ -50,7 +45,7 @@ export default function SupervisorCouriers() {
           )}
 
           {myCouriers.map((courier) => {
-            const assignment = resolveAssignment(courier, isAr);
+            const assignment = resolveAssignment(courier, isAr, companies);
             const history = getAttendanceSummary(courier.id).history;
             const today = history[history.length - 1];
             return (

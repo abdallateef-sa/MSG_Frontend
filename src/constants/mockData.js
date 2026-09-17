@@ -9,7 +9,7 @@
  *   - src/constants/mockAttendance.js        (حضور المناديب)
  *   - src/constants/mockDashboard.js         (بيانات داشبورد المندوب)
  *   - src/constants/supervisors.js           (قائمة المشرفين)
- *   - src/constants/companies.js             (الشركات والمخازن)
+ *   - src/constants/mockMasterData.js        (الشركات/العملاء والمناطق والمدن والمخازن)
  * ========================================================================== */
 
 import { REQUEST_STATUS, CANCEL_REASON, OPERATION_STATUS } from '@/constants/requestStatus';

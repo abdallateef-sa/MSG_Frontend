@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { useMasterData } from '@/context/MasterDataContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
-import { SUPERVISORS } from '@/constants/supervisors';
 import FormActions from '@/components/shared/FormActions';
 import { toEnglishDigits } from '@/utils/digits';
 
 export default function PersonalInfo() {
   const { t, lang } = useLanguage();
   const { personal, updatePersonal, hasVehicle, setHasVehicle } = useOnboarding();
+  const { supervisors } = useMasterData();
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
@@ -170,7 +171,7 @@ export default function PersonalInfo() {
             <option value="" disabled>
               {t.chooseSupervisor}
             </option>
-            {SUPERVISORS.map((supervisor) => (
+            {supervisors.map((supervisor) => (
               <option key={supervisor.id} value={supervisor.id}>
                 {lang === 'ar' ? supervisor.nameAr : supervisor.nameEn}
               </option>

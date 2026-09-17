@@ -36,12 +36,14 @@ export function OperationsProvider({ children }) {
   };
 
   // HR final decision for an operational request.
-  const decideOperationRequest = (id, { decision, reason }) => {
+  // Extra fields (e.g. approvedAmount, hrDecisionNote) are merged onto the request.
+  const decideOperationRequest = (id, { decision, reason, ...extra }) => {
     updateRequest(id, {
       status: decision === 'approve' ? OPERATION_STATUS.APPROVED : OPERATION_STATUS.REJECTED,
       hrDecision: decision,
       hrRejectReason: decision === 'approve' ? '' : reason || '',
       hrDecisionAt: new Date().toISOString(),
+      ...extra,
     });
   };
 

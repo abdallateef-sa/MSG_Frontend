@@ -9,7 +9,7 @@ import Icon from '@/components/ui/Icon';
  * and HR portals. Displays the request metadata, notes, submitted form data,
  * and attachments.
  */
-export default function OperationRequestDetailsModal({ request, onClose }) {
+export default function OperationRequestDetailsModal({ request, onClose, footer }) {
   const { t, lang, dir } = useLanguage();
   const isAr = lang === 'ar';
   const typeOptions = useMemo(() => getOperationTypes(isAr), [isAr]);
@@ -138,6 +138,8 @@ export default function OperationRequestDetailsModal({ request, onClose }) {
             </section>
           )}
         </div>
+
+        {footer && <div className="op-modal-footer">{footer}</div>}
       </div>
     </div>
   );

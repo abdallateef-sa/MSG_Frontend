@@ -1,6 +1,6 @@
 import { useLanguage } from '@/i18n/LanguageContext';
 import Icon from '@/components/ui/Icon';
-import { COMPANIES } from '@/constants/companies';
+import { useMasterData } from '@/context/MasterDataContext';
 
 const DOC_ICONS = {
   identity: 'idCard',
@@ -21,10 +21,11 @@ function InfoField({ label, value, dir, fullWidth = false }) {
 
 export default function CourierApplicationInfo({ request }) {
   const { t, lang } = useLanguage();
+  const { companies } = useMasterData();
   const isAr = lang === 'ar';
   const unavailable = t.notProvided;
 
-  const company = COMPANIES.find((item) => item.id === request.companyId);
+  const company = companies.find((item) => item.id === request.companyId);
   const warehouse = company?.warehouses.find((item) => item.id === request.warehouseId);
   const companyName = company ? (isAr ? company.nameAr : company.nameEn) : null;
   const warehouseName = warehouse ? (isAr ? warehouse.nameAr : warehouse.nameEn) : null;

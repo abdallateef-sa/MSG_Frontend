@@ -1,5 +1,5 @@
 import { useLanguage } from '@/i18n/LanguageContext';
-import { COMPANIES } from '@/constants/companies';
+import { useMasterData } from '@/context/MasterDataContext';
 
 export default function CompanyWarehouseSelect({
   selectedCompany,
@@ -10,8 +10,9 @@ export default function CompanyWarehouseSelect({
   disabled = false,
 }) {
   const { lang, t } = useLanguage();
+  const { companies } = useMasterData();
 
-  const currentCompanyObj = COMPANIES.find((c) => c.id === selectedCompany);
+  const currentCompanyObj = companies.find((c) => c.id === selectedCompany);
   const warehouses = currentCompanyObj ? currentCompanyObj.warehouses : [];
 
   const handleCompanyChange = (e) => {
@@ -33,7 +34,7 @@ export default function CompanyWarehouseSelect({
           <option value="" disabled>
             {t.chooseCompany || 'اختر الشركة'}
           </option>
-          {COMPANIES.map((comp) => (
+          {companies.map((comp) => (
             <option key={comp.id} value={comp.id}>
               {lang === 'ar' ? comp.nameAr : comp.nameEn}
             </option>

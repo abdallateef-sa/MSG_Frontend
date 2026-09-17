@@ -1,12 +1,14 @@
 import { createContext, useContext, useState } from 'react';
 import { REQUEST_STATUS, CANCEL_REASON } from '@/constants/requestStatus';
-import { SUPERVISORS } from '@/constants/supervisors';
+import { useMasterData } from '@/context/MasterDataContext';
 // ⚠️ MOCK DATA — delete when the backend is connected.
 import { MOCK_HIRING_REQUESTS } from '@/constants/mockData';
 
 const OnboardingContext = createContext(null);
 
 export function OnboardingProvider({ children }) {
+  const { supervisors } = useMasterData();
+
   // Current registration flow state (Courier side)
   const [personal, setPersonal] = useState({
     fullName: '',
@@ -77,7 +79,7 @@ export function OnboardingProvider({ children }) {
   // Submit current registration as a new application
   const submitCourierApplication = () => {
     const newId = `APP-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    const selectedSupervisor = SUPERVISORS.find(
+    const selectedSupervisor = supervisors.find(
       (supervisor) => supervisor.id === personal.supervisorId,
     );
     const newApplication = {

@@ -80,6 +80,13 @@ const PATHS = {
       <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
     </>
   ),
+  userShield: (
+    <>
+      <path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" />
+      <circle cx="12" cy="10" r="2.2" />
+      <path d="M8.5 15.6a3.6 3.6 0 0 1 7 0" />
+    </>
+  ),
   vehicle: (
     <>
       <path d="M3 17V9a2 2 0 0 1 2-2h9l4 4h1a2 2 0 0 1 2 2v4" />
@@ -115,6 +122,11 @@ const PATHS = {
     <>
       <path d="M9 21H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3" />
       <path d="m16 17 5-5-5-5M21 12H9" />
+    </>
+  ),
+  menu: (
+    <>
+      <path d="M4 6h16M4 12h16M4 18h16" />
     </>
   ),
   check: <path d="m4 12.5 5 5L20 6.5" />,

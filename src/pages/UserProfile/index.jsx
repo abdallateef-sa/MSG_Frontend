@@ -3,8 +3,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { ROUTES } from '@/constants/routes';
-import { COMPANIES } from '@/constants/companies';
-import { SUPERVISORS } from '@/constants/supervisors';
+import { useMasterData } from '@/context/MasterDataContext';
 import { mockDashboard } from '@/constants/mockDashboard';
 import AppHeader from '@/components/shared/AppHeader';
 import CourierBottomNav from '@/components/shared/CourierBottomNav';
@@ -13,6 +12,7 @@ import Icon from '@/components/ui/Icon';
 export default function UserProfile() {
   const { t, lang, dir, toggleLang } = useLanguage();
   const { logout } = useAuth();
+  const { companies, supervisors } = useMasterData();
   const navigate = useNavigate();
   const { personal, vehicleBank, hasVehicle, currentRequest } = useOnboarding();
 
@@ -42,15 +42,19 @@ export default function UserProfile() {
   const iban = vehicleBank?.iban || currentRequest?.iban || 'SA0000000000000000000000';
 
   // Work & Assignment Info
-  const companyObj = COMPANIES.find((c) => c.id === currentRequest?.companyId) || COMPANIES[0];
-  const companyName = lang === 'ar' ? companyObj.nameAr : companyObj.nameEn;
+  const companyObj = companies.find((c) => c.id === currentRequest?.companyId) || companies[0];
+  const companyName = companyObj ? (lang === 'ar' ? companyObj.nameAr : companyObj.nameEn) : t.notProvided;
 
   const warehouseObj =
-    companyObj.warehouses.find((w) => w.id === currentRequest?.warehouseId) ||
-    companyObj.warehouses[0];
-  const warehouseName = lang === 'ar' ? warehouseObj.nameAr : warehouseObj.nameEn;
+    companyObj?.warehouses.find((w) => w.id === currentRequest?.warehouseId) ||
+    companyObj?.warehouses[0];
+  const warehouseName = warehouseObj
+    ? lang === 'ar'
+      ? warehouseObj.nameAr
+      : warehouseObj.nameEn
+    : t.notProvided;
 
-  const selectedSupervisor = SUPERVISORS.find(
+  const selectedSupervisor = supervisors.find(
     (supervisor) => supervisor.id === (personal?.supervisorId || currentRequest?.supervisorId),
   );
   const supervisorName =
